@@ -1,0 +1,7 @@
+{
+  "name": "Cafeteria Elite MVP",
+  "description": "A high-end, 2027-trend cafeteria management and ordering system featuring glassmorphism UI, real-time invoice calculations, and Gemini-powered smart recommendations.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
