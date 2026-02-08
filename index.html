@@ -21,6 +21,21 @@
         --accent-strong: #fcd34d;
         --text-muted: rgba(255, 255, 255, 0.6);
         --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+        --hero-surface: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(17, 24, 39, 0.45));
+        --header-bg: rgba(0, 0, 0, 0.7);
+      }
+
+      [data-theme="light"] {
+        color-scheme: light;
+        --bg: #f7f4ef;
+        --panel: rgba(255, 255, 255, 0.9);
+        --panel-border: rgba(15, 23, 42, 0.1);
+        --accent: #c2410c;
+        --accent-strong: #f97316;
+        --text-muted: rgba(15, 23, 42, 0.64);
+        --shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+        --hero-surface: linear-gradient(135deg, rgba(251, 146, 60, 0.24), rgba(248, 250, 252, 0.9));
+        --header-bg: rgba(255, 255, 255, 0.82);
       }
 
       * {
@@ -83,7 +98,7 @@
         top: 0;
         z-index: 20;
         backdrop-filter: blur(24px);
-        background: rgba(0, 0, 0, 0.7);
+        background: var(--header-bg);
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       }
 
@@ -150,6 +165,26 @@
         gap: 8px;
       }
 
+      .theme-toggle {
+        border: 1px solid var(--panel-border);
+        background: var(--panel);
+        color: inherit;
+        padding: 10px 14px;
+        border-radius: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .theme-toggle span {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--text-muted);
+      }
+
       .cart-count {
         background: #fcd34d;
         color: #111;
@@ -172,7 +207,7 @@
         gap: 24px;
         padding: 28px;
         border-radius: 24px;
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(17, 24, 39, 0.45));
+        background: var(--hero-surface);
         border: 1px solid rgba(245, 158, 11, 0.2);
         box-shadow: var(--shadow);
       }
@@ -199,6 +234,42 @@
         border-radius: 18px;
         padding: 16px;
         border: 1px solid var(--panel-border);
+      }
+
+      [data-theme="light"] body {
+        color: #0f172a;
+      }
+
+      [data-theme="light"] header {
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      }
+
+      [data-theme="light"] .hero-card {
+        background: rgba(255, 255, 255, 0.85);
+      }
+
+      [data-theme="light"] .badge {
+        color: #0ea5e9;
+        background: rgba(14, 165, 233, 0.12);
+        border-color: rgba(14, 165, 233, 0.3);
+      }
+
+      [data-theme="light"] .add-btn,
+      [data-theme="light"] .cart-btn {
+        color: #0f172a;
+      }
+
+      [data-theme="light"] .cart-panel {
+        background: rgba(248, 250, 252, 0.98);
+        box-shadow: -24px 0 80px rgba(15, 23, 42, 0.12);
+      }
+
+      [data-theme="light"] .qty-btn {
+        color: #0f172a;
+      }
+
+      [data-theme="light"] .checkout-btn {
+        color: #111;
       }
 
       .section-heading {
@@ -427,6 +498,9 @@
           </div>
           <div class="header-actions">
             <span class="pill">The North</span>
+            <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+              🌗 <span id="theme-label">Dark</span>
+            </button>
             <button class="cart-btn" id="open-cart">
               Cart <span class="cart-count" id="cart-count">0</span>
             </button>
@@ -558,6 +632,8 @@
       const serviceFeeEl = document.getElementById("service-fee");
       const vatEl = document.getElementById("vat");
       const totalEl = document.getElementById("total");
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeLabel = document.getElementById("theme-label");
       const serviceFee = 3.5;
 
       const currency = (value) => `$${value.toFixed(2)}`;
@@ -668,6 +744,24 @@
         serviceFeeEl.textContent = items.length ? currency(serviceFee) : currency(0);
         totalEl.textContent = currency(total);
       };
+
+      const applyTheme = (theme) => {
+        document.documentElement.setAttribute("data-theme", theme);
+        const isLight = theme === "light";
+        themeToggle.setAttribute("aria-pressed", String(isLight));
+        themeLabel.textContent = isLight ? "Light" : "Dark";
+      };
+
+      const storedTheme = localStorage.getItem("elite_theme");
+      const initialTheme = storedTheme || "dark";
+      applyTheme(initialTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const nextTheme =
+          document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+        localStorage.setItem("elite_theme", nextTheme);
+        applyTheme(nextTheme);
+      });
 
       const addToCart = (id) => {
         const product = products.find((p) => p.id === id);
