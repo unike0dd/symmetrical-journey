@@ -15,25 +15,38 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, categories, onUpdat
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   
   const allFilters: (Category | 'ALL')[] = ['ALL', ...categories];
+  const formatFilterLabel = (value: Category | 'ALL') => {
+    if (value === 'ALL') return 'All';
+    const normalized = value.toLowerCase();
+    const titleCase = `${normalized.charAt(0).toUpperCase()}${normalized.slice(1)}`;
+    return titleCase.endsWith('s') ? titleCase : `${titleCase}s`;
+  };
   const filtered = products.filter(p => filter === 'ALL' || p.category === filter);
 
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar">
-        {allFilters.map((c) => (
-          <button
-            key={c}
-            onClick={() => setFilter(c)}
-            className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all border whitespace-nowrap ${
-              filter === c 
-                ? 'accent-gradient text-black border-amber-400 shadow-[0_10px_30px_rgba(245,158,11,0.2)]' 
-                : 'glass text-white/40 border-white/5 hover:border-white/10'
-            }`}
+      <div className="flex flex-col gap-3">
+        <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
+          Daily selections
+        </label>
+        <div className="relative w-full max-w-xs">
+          <select
+            value={filter}
+            onChange={(event) => setFilter(event.target.value as Category | 'ALL')}
+            className="w-full appearance-none rounded-2xl border border-white/10 bg-black/40 px-5 py-3 text-xs font-black uppercase tracking-[0.3em] text-white shadow-[0_15px_30px_rgba(0,0,0,0.35)] backdrop-blur focus:border-amber-400 focus:outline-none"
+            aria-label="Filter daily selections"
           >
-            {c}
-          </button>
-        ))}
+            {allFilters.map((c) => (
+              <option key={c} value={c} className="bg-black text-white">
+                {formatFilterLabel(c)}
+              </option>
+            ))}
+          </select>
+          <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-white/40">
+            ▼
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
