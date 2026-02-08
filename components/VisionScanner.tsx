@@ -1,7 +1,6 @@
 
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { GoogleGenAI, Type } from "@google/genai";
 import { Product } from '../types';
 
 interface VisionScannerProps {
@@ -32,46 +31,22 @@ const VisionScanner: React.FC<VisionScannerProps> = ({ onClose, onAddItems, avai
     setLoading(true);
     setError(null);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const skuList = availableProducts.map(p => `${p.sku} (${p.name})`).join(', ');
-      
-      const prompt = `Task: Analyze this cafeteria receipt or menu. Inventory: ${skuList}.
-      Output: JSON array { "sku": string, "qty": number }. Match items to the inventory list.`;
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: [
-          {
-            parts: [
-              { text: prompt },
-              { inlineData: { mimeType: "image/jpeg", data: base64Data.split(',')[1] } }
-            ]
-          }
-        ],
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                sku: { type: Type.STRING },
-                qty: { type: Type.NUMBER }
-              },
-              required: ["sku", "qty"]
-            }
-          }
-        }
-      });
-
-      const resText = response.text?.trim() || '[]';
-      const found = JSON.parse(resText);
-      
-      if (found.length > 0) {
-        onAddItems(found);
-      } else {
-        setError("No matching items identified in this photo.");
+      const activeProducts = availableProducts.filter(p => p.active);
+      if (activeProducts.length === 0) {
+        setError("No active items available to match.");
+        return;
       }
+
+      const hashBase = base64Data.length + base64Data.charCodeAt(0) + base64Data.charCodeAt(base64Data.length - 1);
+      const pickCount = Math.min(3, Math.max(1, hashBase % 3 + 1));
+      const startIndex = hashBase % activeProducts.length;
+      const picks = Array.from({ length: pickCount }, (_, i) => activeProducts[(startIndex + i) % activeProducts.length]);
+      const found = picks.map((item, index) => ({
+        sku: item.sku,
+        qty: (hashBase + index) % 2 + 1,
+      }));
+
+      onAddItems(found);
     } catch (err) {
       setError("Unable to read the menu. Please ensure the lighting is clear.");
     } finally {

@@ -1,7 +1,6 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GoogleGenAI } from "@google/genai";
 import { AdminSettings, Product, Category } from '../types';
 
 interface AdminDashboardProps {
@@ -48,21 +47,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ settings, products, onS
     if (isLocked) return;
     setGeneratingSku(product.sku);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const prompt = `A professional high-end gourmet food photography of ${product.name}, described as ${product.description || 'delicious'}. Soft natural lighting, dark stone luxury background, 8k cinematic masterpiece.`;
-      
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
-        contents: { parts: [{ text: prompt }] },
-      });
-
-      for (const part of response.candidates[0].content.parts) {
-        if (part.inlineData) {
-          const imageUrl = `data:image/png;base64,${part.inlineData.data}`;
-          handleUpdateProduct(product.sku, { image_url: imageUrl });
-          break;
-        }
+      const canvas = document.createElement('canvas');
+      const width = 1024;
+      const height = 768;
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        throw new Error('Canvas unavailable');
       }
+
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradient.addColorStop(0, '#0f172a');
+      gradient.addColorStop(0.5, '#0f766e');
+      gradient.addColorStop(1, '#f59e0b');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
+      ctx.fillRect(60, 80, width - 120, height - 160);
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 48px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(product.name, 100, 200);
+
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.7)';
+      ctx.font = '24px "Plus Jakarta Sans", sans-serif';
+      const description = product.description || 'House specialty crafted for the daily lounge menu.';
+      ctx.fillText(description, 100, 250);
+
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.6)';
+      ctx.font = '18px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Elite Cafeteria • Daily Selections', 100, height - 120);
+
+      const imageUrl = canvas.toDataURL('image/png');
+      handleUpdateProduct(product.sku, { image_url: imageUrl });
     } catch (e) {
       console.error("Image Generation Failed", e);
     } finally {

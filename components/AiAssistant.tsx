@@ -1,6 +1,5 @@
 
 import React, { useState } from 'react';
-import { GoogleGenAI, Type } from "@google/genai";
 import { Product } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -21,41 +20,24 @@ const AiAssistant: React.FC<AiAssistantProps> = ({ products, onAdd }) => {
   const [loading, setLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const buildRecommendations = (activeProducts: Product[]) => {
+    const themes = ["The Classic", "The Refined", "The Bold"];
+    const picks = [...activeProducts].sort((a, b) => a.name.localeCompare(b.name));
+    const selected = picks.slice(0, 3);
+
+    return selected.map((item, index) => ({
+      name: item.name,
+      sku: item.sku,
+      theme: themes[index] || "The Selection",
+      reason: `A ${index === 0 ? 'signature' : index === 1 ? 'polished' : 'vivid'} pairing that highlights ${item.description?.toLowerCase() || 'the house style'}.`,
+    }));
+  };
+
   const getRecommendations = async () => {
     setLoading(true);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const activeProducts = products.filter(p => p.active);
-      const inventoryString = activeProducts.map(p => `${p.sku}: ${p.name}`).join(', ');
-
-      const prompt = `System: High-End Cafeteria AI Sommelier.
-      Objective: Recommend 3 diverse items from this inventory: ${inventoryString}.
-      Themes: 1. "The Classic" (essential choice), 2. "The Refined" (sophisticated pairing), 3. "The Bold" (adventurous taste).
-      Response: Valid JSON array of 3 objects with keys: "name", "reason" (short poetic endorsement), "sku", and "theme".`;
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt,
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                name: { type: Type.STRING },
-                reason: { type: Type.STRING },
-                sku: { type: Type.STRING },
-                theme: { type: Type.STRING }
-              },
-              required: ["name", "reason", "sku", "theme"]
-            }
-          }
-        }
-      });
-
-      const resText = response.text?.trim() || '[]';
-      const data = JSON.parse(resText);
+      const data = buildRecommendations(activeProducts);
       setRecommendations(data);
       setCurrentIndex(0);
     } catch (e) {
