@@ -5,6 +5,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Elite Cafeteria Experience</title>
+    <meta
+      name="description"
+      content="Elite Cafe experience with a tiny ML security scanner and OPS CyberSec Core governance overview."
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' https://fonts.gstatic.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -516,6 +525,59 @@
         word-break: break-word;
       }
 
+      .governance {
+        background: var(--surface-1);
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        padding: 22px;
+        display: grid;
+        gap: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .governance h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .governance p {
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      .governance-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+      }
+
+      .governance-card {
+        background: var(--surface-2);
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        padding: 16px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .governance-card h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .governance-card ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--text-secondary);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .governance-card strong {
+        color: var(--text-primary);
+      }
+
       .card {
         background: var(--surface-1);
         border-radius: 20px;
@@ -741,6 +803,10 @@
         .scanner {
           padding: 18px;
         }
+
+        .governance {
+          padding: 18px;
+        }
       }
     </style>
   </head>
@@ -826,6 +892,60 @@
                 <strong>Sanitized output:</strong>
                 <div class="result-mono" id="sanitized-output">-</div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="governance" aria-labelledby="governance-title">
+          <div>
+            <span class="pill">OPS CySec Core</span>
+            <h2 id="governance-title">Security Governance &amp; Compliance Controls</h2>
+            <p>
+              Governance overlay that maps OPS CyberSec Core to NIST, CISA, PCI DSS, and OWASP. The headers listed
+              below should be enforced at the edge or server layer for full protection.
+            </p>
+          </div>
+          <div class="governance-grid">
+            <div class="governance-card">
+              <h3>Identify &amp; Protect</h3>
+              <ul>
+                <li><strong>Asset inventory</strong> and risk classification.</li>
+                <li><strong>Least privilege</strong>, MFA, and secure backups.</li>
+                <li><strong>PCI DSS 3-6</strong> coverage for data protection.</li>
+              </ul>
+            </div>
+            <div class="governance-card">
+              <h3>Detect &amp; Respond</h3>
+              <ul>
+                <li><strong>SIEM baselines</strong> for anomaly detection.</li>
+                <li><strong>Incident playbooks</strong> with forensics handoff.</li>
+                <li><strong>CISA Essentials</strong> for continuous readiness.</li>
+              </ul>
+            </div>
+            <div class="governance-card">
+              <h3>Recover &amp; Validate</h3>
+              <ul>
+                <li><strong>Continuity plans</strong> with MTTR targets.</li>
+                <li><strong>Integrity checks</strong> (hashes + SRI for static assets).</li>
+                <li><strong>Compliance evidence</strong> aligned to audits.</li>
+              </ul>
+            </div>
+            <div class="governance-card">
+              <h3>Security Headers</h3>
+              <ul>
+                <li><strong>CSP</strong> enforced via meta &amp; edge policy.</li>
+                <li><strong>HSTS</strong>, <strong>CORP</strong>, <strong>CORS</strong>.</li>
+                <li><strong>X-Frame-Options</strong>, <strong>X-Content-Type-Options</strong>.</li>
+                <li><strong>Referrer-Policy</strong> (meta set; header recommended).</li>
+              </ul>
+            </div>
+            <div class="governance-card">
+              <h3>SEO &amp; Web Trust</h3>
+              <ul>
+                <li><strong>Google Search Console</strong> verification.</li>
+                <li><strong>Robots + sitemap</strong> governance.</li>
+                <li><strong>Accessibility</strong> (WCAG 2.1 AA).</li>
+              </ul>
             </div>
           </div>
         </section>
