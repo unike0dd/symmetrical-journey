@@ -397,6 +397,125 @@
         gap: 18px;
       }
 
+      .scanner {
+        background: var(--surface-1);
+        border-radius: 24px;
+        border: 1px solid var(--border);
+        padding: 22px;
+        display: grid;
+        gap: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .scanner h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .scanner p {
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      .scanner-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      .scanner textarea {
+        width: 100%;
+        min-height: 180px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        color: var(--text-primary);
+        padding: 14px;
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        resize: vertical;
+      }
+
+      .scanner textarea:focus {
+        outline: 2px solid rgba(76, 134, 255, 0.6);
+        outline-offset: 2px;
+      }
+
+      .scanner-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .scanner-btn {
+        background: var(--accent);
+        color: #0e0f12;
+        border: none;
+        border-radius: 12px;
+        padding: 10px 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .scanner-results {
+        background: var(--surface-2);
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        padding: 14px;
+        display: grid;
+        gap: 12px;
+        font-size: 14px;
+      }
+
+      .result-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        background: var(--chip-bg);
+        border: 1px solid var(--border);
+        width: fit-content;
+      }
+
+      .result-badge.clean {
+        color: var(--success);
+        background: var(--success-soft);
+        border-color: var(--success);
+      }
+
+      .result-badge.warn {
+        color: #f59e0b;
+        background: rgba(245, 158, 11, 0.15);
+        border-color: rgba(245, 158, 11, 0.5);
+      }
+
+      .result-badge.alert {
+        color: #ef4444;
+        background: rgba(239, 68, 68, 0.15);
+        border-color: rgba(239, 68, 68, 0.5);
+      }
+
+      .result-list {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--text-secondary);
+      }
+
+      .result-mono {
+        font-family: "JetBrains Mono", "SFMono-Regular", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 12px;
+        color: var(--text-secondary);
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
       .card {
         background: var(--surface-1);
         border-radius: 20px;
@@ -618,6 +737,10 @@
         .hero {
           padding: 20px;
         }
+
+        .scanner {
+          padding: 18px;
+        }
       }
     </style>
   </head>
@@ -662,6 +785,48 @@
           <div class="section-heading">
             <label class="section-label" for="filter-select">Daily selections</label>
             <select id="filter-select" class="filter-select" aria-label="Daily selections"></select>
+          </div>
+        </section>
+
+        <section class="scanner" aria-labelledby="scanner-title">
+          <div>
+            <span class="pill">Tiny ML</span>
+            <h2 id="scanner-title">Code Integrity &amp; Malicious Pattern Scanner</h2>
+            <p>
+              Paste any snippet to run a tiny on-device ML signal scorer. It clears unsafe tags, sanitizes scripts,
+              checks integrity with a hash, and flags suspicious signatures before you ship.
+            </p>
+          </div>
+          <div class="scanner-grid">
+            <div>
+              <label class="text-muted" for="scanner-input">Code or content to scan</label>
+              <textarea id="scanner-input" placeholder="Paste code, configs, or HTML here..."></textarea>
+              <div class="scanner-actions">
+                <button class="scanner-btn" id="scan-btn" type="button">Scan &amp; Sanitize</button>
+                <span class="text-muted" id="scan-status">Awaiting input.</span>
+              </div>
+            </div>
+            <div class="scanner-results" id="scanner-results">
+              <span class="result-badge clean" id="risk-badge">Clean</span>
+              <div>
+                <strong>Risk score:</strong>
+                <span id="risk-score">0.00</span>
+              </div>
+              <div>
+                <strong>Integrity hash (SHA-256):</strong>
+                <div class="result-mono" id="integrity-hash">-</div>
+              </div>
+              <div>
+                <strong>Detected signals:</strong>
+                <ul class="result-list" id="signal-list">
+                  <li>No signals detected yet.</li>
+                </ul>
+              </div>
+              <div>
+                <strong>Sanitized output:</strong>
+                <div class="result-mono" id="sanitized-output">-</div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -781,6 +946,14 @@
       const themeToggle = document.getElementById("theme-toggle");
       const themeLabel = document.getElementById("theme-label");
       const serviceFee = 3.5;
+      const scannerInput = document.getElementById("scanner-input");
+      const scanBtn = document.getElementById("scan-btn");
+      const scanStatus = document.getElementById("scan-status");
+      const riskBadge = document.getElementById("risk-badge");
+      const riskScore = document.getElementById("risk-score");
+      const integrityHash = document.getElementById("integrity-hash");
+      const signalList = document.getElementById("signal-list");
+      const sanitizedOutput = document.getElementById("sanitized-output");
 
       const currency = (value) => `$${value.toFixed(2)}`;
 
@@ -959,6 +1132,86 @@
         updateStorage();
         renderCart();
         setCartOpen(false);
+      });
+
+      const suspiciousSignals = [
+        { label: "Inline script tags", pattern: /<script[\s\S]*?>[\s\S]*?<\/script>/gi, weight: 0.4 },
+        { label: "Eval or Function constructor", pattern: /\b(eval|new Function)\b/gi, weight: 0.35 },
+        { label: "Document.write or innerHTML", pattern: /\b(document\.write|innerHTML|outerHTML)\b/gi, weight: 0.2 },
+        { label: "Encoded payloads", pattern: /\b(atob|btoa|base64|fromCharCode)\b/gi, weight: 0.2 },
+        { label: "Shell or exec commands", pattern: /\b(exec|spawn|child_process|powershell|cmd\.exe)\b/gi, weight: 0.35 },
+        { label: "Remote fetch or exfiltration", pattern: /\b(fetch|XMLHttpRequest|webhook|curl|wget)\b/gi, weight: 0.2 },
+        { label: "Credential patterns", pattern: /\b(api[_-]?key|token|secret|password)\b/gi, weight: 0.25 },
+      ];
+
+      const sanitizePayload = (raw) => {
+        let sanitized = raw.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "");
+        sanitized = sanitized.replace(/<[^>]*>/g, "");
+        sanitized = sanitized.replace(/```[\s\S]*?```/g, "");
+        sanitized = sanitized.replace(/[^\x09\x0A\x0D\x20-\x7E]/g, "");
+        sanitized = sanitized.replace(/\s{3,}/g, " ").trim();
+        return sanitized;
+      };
+
+      const scoreSignals = (raw) => {
+        const matches = suspiciousSignals
+          .map((signal) => {
+            const count = (raw.match(signal.pattern) || []).length;
+            return { ...signal, count, score: count ? Math.min(1, count * signal.weight) : 0 };
+          })
+          .filter((signal) => signal.count > 0);
+        const total = matches.reduce((sum, signal) => sum + signal.score, 0);
+        const normalized = Math.min(1, total);
+        return { matches, normalized };
+      };
+
+      const hashPayload = async (raw) => {
+        if (!window.crypto?.subtle) return "-";
+        const buffer = new TextEncoder().encode(raw);
+        const digest = await window.crypto.subtle.digest("SHA-256", buffer);
+        return Array.from(new Uint8Array(digest))
+          .map((byte) => byte.toString(16).padStart(2, "0"))
+          .join("");
+      };
+
+      const updateBadge = (score) => {
+        riskBadge.classList.remove("clean", "warn", "alert");
+        if (score < 0.3) {
+          riskBadge.textContent = "Clean";
+          riskBadge.classList.add("clean");
+        } else if (score < 0.65) {
+          riskBadge.textContent = "Suspicious";
+          riskBadge.classList.add("warn");
+        } else {
+          riskBadge.textContent = "Malicious";
+          riskBadge.classList.add("alert");
+        }
+      };
+
+      const runTinyMlScan = async () => {
+        const raw = scannerInput.value || "";
+        scanStatus.textContent = raw ? "Scanning..." : "Awaiting input.";
+        const sanitized = sanitizePayload(raw);
+        const { matches, normalized } = scoreSignals(raw);
+        const integrity = await hashPayload(raw);
+
+        riskScore.textContent = normalized.toFixed(2);
+        updateBadge(normalized);
+        integrityHash.textContent = integrity;
+        sanitizedOutput.textContent = sanitized || "-";
+
+        if (!matches.length) {
+          signalList.innerHTML = "<li>No suspicious signals detected.</li>";
+        } else {
+          signalList.innerHTML = matches
+            .map((match) => `<li>${match.label} (x${match.count})</li>`)
+            .join("");
+        }
+        scanStatus.textContent = "Scan complete.";
+      };
+
+      scanBtn.addEventListener("click", () => {
+        runTinyMlScan();
       });
 
       renderHero();
