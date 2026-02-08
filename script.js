@@ -152,10 +152,13 @@ const products = [
 const state = {
   cart: JSON.parse(localStorage.getItem("elite_cart") || "{}"),
   activeSelection: "all",
+  heroIndex: 0,
 };
 
 // Reference: DOM nodes.
-const heroGrid = document.getElementById("hero-grid");
+const heroTrack = document.getElementById("hero-track");
+const heroPrev = document.getElementById("hero-prev");
+const heroNext = document.getElementById("hero-next");
 const filterSelect = document.getElementById("filter-select");
 const productGrid = document.getElementById("product-grid");
 const cartPanel = document.getElementById("cart-panel");
@@ -188,29 +191,40 @@ const setCartOpen = (open) => {
 document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
 overlay.addEventListener("click", () => setCartOpen(false));
 
+const featuredItems = products.slice(0, 3);
+
+const updateHeroCarousel = () => {
+  heroTrack.style.transform = `translateX(-${state.heroIndex * 100}%)`;
+};
+
 // Function: Render hero cards.
 const renderHero = () => {
-  const featured = products.slice(0, 3);
-  heroGrid.innerHTML = featured
+  heroTrack.innerHTML = featuredItems
     .map(
       (item) => `
-        <div class="hero-card">
-          <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
-            item.badgeActive ? "true" : "false"
-          }">${item.badge}</div>
-          <div class="card-media">
-            <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
-          </div>
-          <h3>${item.name}</h3>
-          <p>${item.description}</p>
-          <div class="price-row">
-            <span class="price">${currency(item.price)}</span>
-            <button class="add-btn" data-add="${item.id}">Add</button>
+        <div class="hero-slide">
+          <div class="hero-card">
+            <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
+              item.badgeActive ? "true" : "false"
+            }">${item.badge}</div>
+            <div class="card-media">
+              <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
+            </div>
+            <h3>${item.name}</h3>
+            <p>${item.description}</p>
+            <div class="price-row">
+              <span class="price">${currency(item.price)}</span>
+              <button class="add-btn" data-add="${item.id}">Add</button>
+            </div>
           </div>
         </div>
       `
     )
     .join("");
+  updateHeroCarousel();
+  const disabled = featuredItems.length <= 1;
+  heroPrev.disabled = disabled;
+  heroNext.disabled = disabled;
 };
 
 // Function: Render filter options.
@@ -349,6 +363,17 @@ document.addEventListener("click", (event) => {
   if (qtyBtn) {
     updateQty(qtyBtn.dataset.qty, Number(qtyBtn.dataset.delta));
   }
+});
+
+// Event triggers: Hero carousel navigation.
+heroPrev.addEventListener("click", () => {
+  state.heroIndex = (state.heroIndex - 1 + featuredItems.length) % featuredItems.length;
+  updateHeroCarousel();
+});
+
+heroNext.addEventListener("click", () => {
+  state.heroIndex = (state.heroIndex + 1) % featuredItems.length;
+  updateHeroCarousel();
 });
 
 // Event trigger: Apply active filter.
