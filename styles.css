@@ -259,14 +259,19 @@ main {
 
 .hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 32px;
   align-items: start;
+  position: relative;
 }
 
 .menu-section {
   display: grid;
   gap: 16px;
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 45;
 }
 
 .menu-toggle {
