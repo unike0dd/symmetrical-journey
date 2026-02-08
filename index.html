@@ -50,15 +50,31 @@
       <main>
         <section class="hero-layout">
           <section class="menu-section">
-            <div class="section-heading">
-              <span>Menu</span>
-              <h2 class="section-label">Curated for your day</h2>
+            <button
+              class="menu-toggle"
+              id="menu-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="menu-panel"
+            >
+              <span class="menu-toggle-icon" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+              Menu
+            </button>
+            <div class="menu-panel" id="menu-panel" aria-hidden="true">
+              <div class="section-heading">
+                <span>Menu</span>
+                <h2 class="section-label">Curated for your day</h2>
+              </div>
+              <div class="menu-filters">
+                <label class="filter-label" for="filter-select">Filter by category</label>
+                <select class="filter-select" id="filter-select" aria-label="Filter by category"></select>
+              </div>
+              <div class="grid" id="product-grid"></div>
             </div>
-            <div class="menu-filters">
-              <label class="filter-label" for="filter-select">Filter by category</label>
-              <select class="filter-select" id="filter-select" aria-label="Filter by category"></select>
-            </div>
-            <div class="grid" id="product-grid"></div>
           </section>
 
           <section class="hero">
@@ -85,6 +101,7 @@
       </main>
     </div>
 
+    <div class="overlay menu-overlay" id="menu-overlay"></div>
     <div class="overlay" id="overlay"></div>
     <aside class="cart-panel" id="cart-panel">
       <div>

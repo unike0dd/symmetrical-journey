@@ -169,6 +169,9 @@ const heroPrev = document.getElementById("hero-prev");
 const heroNext = document.getElementById("hero-next");
 const filterSelect = document.getElementById("filter-select");
 const productGrid = document.getElementById("product-grid");
+const menuToggle = document.getElementById("menu-toggle");
+const menuPanel = document.getElementById("menu-panel");
+const menuOverlay = document.getElementById("menu-overlay");
 const cartPanel = document.getElementById("cart-panel");
 const overlay = document.getElementById("overlay");
 const cartCount = document.getElementById("cart-count");
@@ -198,6 +201,22 @@ const setCartOpen = (open) => {
 // Event trigger: Open/close cart.
 document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
 overlay.addEventListener("click", () => setCartOpen(false));
+
+const setMenuOpen = (open) => {
+  if (!menuToggle || !menuPanel || !menuOverlay) return;
+  menuPanel.classList.toggle("is-open", open);
+  menuOverlay.classList.toggle("show", open);
+  menuToggle.setAttribute("aria-expanded", String(open));
+  menuPanel.setAttribute("aria-hidden", String(!open));
+};
+
+if (menuToggle && menuPanel && menuOverlay) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = menuPanel.classList.contains("is-open");
+    setMenuOpen(!isOpen);
+  });
+  menuOverlay.addEventListener("click", () => setMenuOpen(false));
+}
 
 const featuredItems = products.slice(0, 3);
 
