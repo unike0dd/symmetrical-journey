@@ -504,8 +504,9 @@ main {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
+  margin-left: 10px;
 }
 
 .section-heading h2,
