@@ -171,6 +171,8 @@ const filterSelect = document.getElementById("filter-select");
 const productGrid = document.getElementById("product-grid");
 const menuToggle = document.getElementById("menu-toggle");
 const menuPanel = document.getElementById("menu-panel");
+const menuClose = document.getElementById("menu-close");
+const menuOverlay = document.getElementById("menu-overlay");
 const cartPanel = document.getElementById("cart-panel");
 const overlay = document.getElementById("overlay");
 const cartCount = document.getElementById("cart-count");
@@ -201,12 +203,31 @@ const setCartOpen = (open) => {
 document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
 overlay.addEventListener("click", () => setCartOpen(false));
 
-if (menuToggle && menuPanel) {
-  menuToggle.addEventListener("click", () => {
-    const isCollapsed = menuPanel.classList.toggle("is-collapsed");
-    menuToggle.setAttribute("aria-expanded", String(!isCollapsed));
-  });
+const setMenuOpen = (open) => {
+  if (!menuPanel || !menuOverlay || !menuToggle) return;
+  menuPanel.classList.toggle("is-open", open);
+  menuOverlay.classList.toggle("show", open);
+  menuToggle.setAttribute("aria-expanded", String(open));
+  document.body.classList.toggle("menu-open", open);
+};
+
+if (menuToggle) {
+  menuToggle.addEventListener("click", () => setMenuOpen(true));
 }
+
+if (menuClose) {
+  menuClose.addEventListener("click", () => setMenuOpen(false));
+}
+
+if (menuOverlay) {
+  menuOverlay.addEventListener("click", () => setMenuOpen(false));
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && menuPanel?.classList.contains("is-open")) {
+    setMenuOpen(false);
+  }
+});
 
 const featuredItems = products.slice(0, 3);
 
