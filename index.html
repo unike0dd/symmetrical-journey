@@ -594,12 +594,14 @@
       };
 
       const renderFilters = () => {
-        const combos = products.filter((p) => p.category === "Combos");
-        const rest = products.filter((p) => p.category !== "Combos");
         const selections = [
-          { value: "all", label: "All selections" },
-          ...combos.map((item) => ({ value: item.id, label: item.name })),
-          ...rest.map((item) => ({ value: item.id, label: item.name })),
+          { value: "all", label: "All" },
+          { value: "Combos", label: "Combos" },
+          { value: "Soups", label: "Soups" },
+          { value: "Salads", label: "Salads" },
+          { value: "Mains", label: "Mains" },
+          { value: "Desserts", label: "Desserts" },
+          { value: "Drinks", label: "Drinks" },
         ];
 
         filterSelect.innerHTML = selections
@@ -616,7 +618,7 @@
         const visible =
           state.activeSelection === "all"
             ? products
-            : products.filter((p) => p.id === state.activeSelection);
+            : products.filter((p) => p.category === state.activeSelection);
         productGrid.innerHTML = visible
           .map(
             (item) => `
