@@ -1,3 +1,4 @@
+// Link/Reference: Product data used by UI and cart actions.
 const products = [
   {
     id: "combo-north",
@@ -69,11 +70,13 @@ const products = [
   },
 ];
 
+// Reference: Application state.
 const state = {
   cart: JSON.parse(localStorage.getItem("elite_cart") || "{}"),
   activeSelection: "all",
 };
 
+// Reference: DOM nodes.
 const heroGrid = document.getElementById("hero-grid");
 const filterSelect = document.getElementById("filter-select");
 const productGrid = document.getElementById("product-grid");
@@ -89,20 +92,25 @@ const themeToggle = document.getElementById("theme-toggle");
 const themeLabel = document.getElementById("theme-label");
 const serviceFee = 3.5;
 
+// Function: Format values for display.
 const currency = (value) => `$${value.toFixed(2)}`;
 
+// Action: Persist cart state.
 const updateStorage = () => {
   localStorage.setItem("elite_cart", JSON.stringify(state.cart));
 };
 
+// Action: Toggle cart visibility.
 const setCartOpen = (open) => {
   cartPanel.classList.toggle("open", open);
   overlay.classList.toggle("show", open);
 };
 
+// Event trigger: Open/close cart.
 document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
 overlay.addEventListener("click", () => setCartOpen(false));
 
+// Function: Render hero cards.
 const renderHero = () => {
   const featured = products.slice(0, 3);
   heroGrid.innerHTML = featured
@@ -124,6 +132,7 @@ const renderHero = () => {
     .join("");
 };
 
+// Function: Render filter options.
 const renderFilters = () => {
   const selections = [
     { value: "all", label: "All" },
@@ -145,6 +154,7 @@ const renderFilters = () => {
   filterSelect.value = state.activeSelection;
 };
 
+// Function: Render product cards.
 const renderProducts = () => {
   const visible =
     state.activeSelection === "all"
@@ -169,6 +179,7 @@ const renderProducts = () => {
     .join("");
 };
 
+// Function: Render cart panel.
 const renderCart = () => {
   const items = Object.values(state.cart);
   cartCount.textContent = items.reduce((sum, item) => sum + item.qty, 0);
@@ -202,6 +213,7 @@ const renderCart = () => {
   totalEl.textContent = currency(total);
 };
 
+// Action: Apply selected theme.
 const applyTheme = (theme) => {
   document.documentElement.setAttribute("data-theme", theme);
   const isLight = theme === "light";
@@ -213,6 +225,7 @@ const storedTheme = localStorage.getItem("elite_theme");
 const initialTheme = storedTheme || "dark";
 applyTheme(initialTheme);
 
+// Event trigger: Theme toggle action.
 themeToggle.addEventListener("click", () => {
   const nextTheme =
     document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
@@ -220,6 +233,7 @@ themeToggle.addEventListener("click", () => {
   applyTheme(nextTheme);
 });
 
+// Action: Add item to cart.
 const addToCart = (id) => {
   const product = products.find((p) => p.id === id);
   if (!product) return;
@@ -229,6 +243,7 @@ const addToCart = (id) => {
   renderCart();
 };
 
+// Action: Update item quantity.
 const updateQty = (id, delta) => {
   if (!state.cart[id]) return;
   state.cart[id].qty += delta;
@@ -239,6 +254,7 @@ const updateQty = (id, delta) => {
   renderCart();
 };
 
+// Event trigger: Delegate add/qty actions.
 document.addEventListener("click", (event) => {
   const addBtn = event.target.closest("[data-add]");
   if (addBtn) {
@@ -251,6 +267,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
+// Event trigger: Apply active filter.
 filterSelect.addEventListener("change", (event) => {
   const target = event.target;
   if (!(target instanceof HTMLSelectElement)) return;
@@ -259,6 +276,7 @@ filterSelect.addEventListener("change", (event) => {
   renderProducts();
 });
 
+// Event trigger: Checkout action.
 document.getElementById("checkout-btn").addEventListener("click", () => {
   if (!Object.keys(state.cart).length) return;
   alert("Order confirmed! We'll have it ready shortly.");
@@ -268,6 +286,7 @@ document.getElementById("checkout-btn").addEventListener("click", () => {
   setCartOpen(false);
 });
 
+// Trigger: Initial render.
 renderHero();
 renderFilters();
 renderProducts();
