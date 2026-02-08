@@ -372,7 +372,7 @@ const applyTheme = (theme) => {
   document.documentElement.setAttribute("data-theme", theme);
   const isLight = theme === "light";
   themeToggle.setAttribute("aria-pressed", String(isLight));
-  themeLabel.textContent = isLight ? "Light" : "Dark";
+  themeLabel.textContent = isLight ? "LIGHT" : "DARK";
 };
 
 const updateScreenWidth = () => {
