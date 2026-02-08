@@ -296,6 +296,7 @@ const renderProducts = () => {
             item.badgeActive ? "true" : "false"
           }">${item.badge}</div>
           <div class="card-media">
+            <span class="screen-width screen-width-card" aria-live="polite"></span>
             <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
           </div>
           <h3>${item.name}</h3>
@@ -308,6 +309,7 @@ const renderProducts = () => {
       `
     )
     .join("");
+  updateScreenWidth();
 };
 
 // Function: Render cart panel.
@@ -352,9 +354,17 @@ const applyTheme = (theme) => {
   themeLabel.textContent = isLight ? "Light" : "Dark";
 };
 
+const updateScreenWidth = () => {
+  const labelText = `Screen width: ${window.innerWidth}px`;
+  document.querySelectorAll(".screen-width").forEach((label) => {
+    label.textContent = labelText;
+  });
+};
+
 const storedTheme = localStorage.getItem("elite_theme");
 const initialTheme = storedTheme || "dark";
 applyTheme(initialTheme);
+updateScreenWidth();
 
 // Event trigger: Theme toggle action.
 themeToggle.addEventListener("click", () => {
@@ -363,6 +373,8 @@ themeToggle.addEventListener("click", () => {
   localStorage.setItem("elite_theme", nextTheme);
   applyTheme(nextTheme);
 });
+
+window.addEventListener("resize", updateScreenWidth);
 
 // Action: Add item to cart.
 const addToCart = (id) => {
