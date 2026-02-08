@@ -397,6 +397,181 @@
         gap: 18px;
       }
 
+      .menu-filters {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 8px 0 12px;
+      }
+
+      .filter-chip {
+        padding: 8px 18px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--chip-bg);
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-chip.active {
+        background: rgba(88, 80, 236, 0.22);
+        border-color: rgba(88, 80, 236, 0.6);
+        color: var(--text-primary);
+        box-shadow: 0 12px 24px rgba(88, 80, 236, 0.15);
+      }
+
+      .carousel {
+        position: relative;
+        display: grid;
+        align-items: center;
+        grid-template-columns: auto 1fr auto;
+        gap: 24px;
+      }
+
+      .carousel-btn {
+        width: 86px;
+        height: 86px;
+        border-radius: 50%;
+        border: 3px solid #facc15;
+        background: rgba(24, 30, 39, 0.85);
+        color: #f97316;
+        font-size: 36px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .carousel-card {
+        display: grid;
+        grid-template-columns: minmax(240px, 1.1fr) minmax(240px, 1fr);
+        background: var(--surface-2);
+        border-radius: 28px;
+        overflow: hidden;
+        border: 1px solid rgba(241, 193, 106, 0.18);
+        box-shadow: var(--shadow);
+      }
+
+      .carousel-image {
+        position: relative;
+        min-height: 260px;
+      }
+
+      .carousel-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .carousel-badge {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(241, 193, 106, 0.4);
+        background: rgba(18, 22, 28, 0.75);
+        color: #f97316;
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      .carousel-content {
+        padding: 32px 32px 28px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .carousel-category {
+        text-transform: uppercase;
+        letter-spacing: 0.35em;
+        font-size: 10px;
+        color: #f97316;
+      }
+
+      .carousel-title {
+        font-family: "Fraunces", serif;
+        font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+        margin: 0;
+      }
+
+      .carousel-desc {
+        color: var(--text-secondary);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .carousel-divider {
+        height: 1px;
+        background: var(--divider);
+        opacity: 0.7;
+      }
+
+      .carousel-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .carousel-price {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .carousel-price span {
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 10px;
+        color: var(--text-secondary);
+      }
+
+      .carousel-price strong {
+        font-size: 22px;
+        color: var(--price);
+      }
+
+      .order-btn {
+        background: var(--accent);
+        border: none;
+        color: #0e0f12;
+        padding: 10px 24px;
+        border-radius: 999px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .carousel-dot {
+        width: 18px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.16);
+      }
+
+      .carousel-dot.active {
+        background: #f97316;
+        width: 32px;
+      }
+
       .card {
         background: var(--surface-1);
         border-radius: 20px;
@@ -605,6 +780,20 @@
         pointer-events: auto;
       }
 
+      @media (max-width: 900px) {
+        .carousel {
+          grid-template-columns: 1fr;
+        }
+
+        .carousel-btn {
+          justify-self: center;
+        }
+
+        .carousel-card {
+          grid-template-columns: 1fr;
+        }
+      }
+
       @media (max-width: 720px) {
         .header-inner {
           flex-direction: column;
@@ -615,8 +804,8 @@
           min-width: 180px;
         }
 
-        .hero {
-          padding: 20px;
+        .carousel-content {
+          padding: 24px;
         }
       }
     </style>
@@ -647,25 +836,15 @@
       </header>
 
       <main>
-        <section class="hero">
-          <div>
-            <h1>The <span class="hero-accent">Full Menu</span></h1>
-            <p>
-              Chef-crafted seasonal plates, tailored for energizing mornings and mindful breaks.
-              <span class="linkish">See today’s highlights.</span>
-            </p>
-          </div>
-          <div class="hero-grid" id="hero-grid"></div>
-        </section>
-
         <section>
-          <div class="section-heading">
-            <label class="section-label" for="filter-select">Daily selections</label>
-            <select id="filter-select" class="filter-select" aria-label="Daily selections"></select>
+          <div class="menu-filters" id="menu-filters"></div>
+          <div class="carousel">
+            <button class="carousel-btn" id="carousel-prev" aria-label="Previous item">‹</button>
+            <div class="carousel-card" id="carousel-card"></div>
+            <button class="carousel-btn" id="carousel-next" aria-label="Next item">›</button>
           </div>
+          <div class="carousel-dots" id="carousel-dots"></div>
         </section>
-
-        <section class="grid" id="product-grid"></section>
       </main>
     </div>
 
@@ -693,83 +872,69 @@
     <script>
       const products = [
         {
-          id: "combo-north",
-          name: "Northern Sunrise Combo",
-          price: 14.5,
-          category: "Combos",
-          description: "Golden waffle stack, herb eggs, and roasted tomatoes.",
-          badge: "Signature",
-          badgeActive: true,
+          id: "pastry-almond",
+          name: "Almond Croissant",
+          price: 5.25,
+          category: "Pastries",
+          description:
+            "Butter-flaked pastry filled with house-made almond frangipane and toasted slices.",
+          badge: "Daily Bake",
+          image:
+            "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80",
         },
         {
-          id: "combo-luxe",
-          name: "Luxe Brunch Pairing",
-          price: 16.0,
-          category: "Combos",
-          description: "Avocado toast duo, citrus salad, and a crafted latte.",
-          badge: "Popular",
-          badgeActive: true,
+          id: "coffee-latte",
+          name: "Citrus Honey Latte",
+          price: 4.75,
+          category: "Coffee",
+          description: "Silky espresso blended with orange zest, honey, and oat milk.",
+          badge: "Barista Pick",
+          image:
+            "https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=900&q=80",
         },
         {
-          id: "soup-mushroom",
-          name: "Silky Mushroom Soup",
-          price: 7.25,
-          category: "Soups",
-          description: "Creamy porcini blend with toasted garlic brioche.",
-          badge: "Seasonal",
+          id: "tea-chai",
+          name: "Smoked Chai Tea",
+          price: 3.95,
+          category: "Tea",
+          description: "Slow-brewed chai with toasted spices and vanilla cream.",
+          badge: "Warm",
+          image:
+            "https://images.unsplash.com/photo-1504198458649-3128b932f49e?auto=format&fit=crop&w=900&q=80",
         },
         {
-          id: "salad-harvest",
-          name: "Harvest Greens",
-          price: 9.75,
-          category: "Salads",
-          description: "Baby kale, roasted squash, cranberries, and feta.",
-          badge: "Integrity",
-          badgeType: "integrity",
-        },
-        {
-          id: "main-bowl",
-          name: "Charcoal Grain Bowl",
-          price: 12.5,
-          category: "Mains",
-          description: "Saffron rice, grilled chicken, and smoked paprika.",
-          badge: "Top pick",
-          badgeActive: true,
-        },
-        {
-          id: "main-pasta",
-          name: "Velvet Pesto Pasta",
-          price: 11.9,
-          category: "Mains",
-          description: "Spinach linguine with pistachio basil pesto.",
-          badge: "Chef",
+          id: "lunch-bowl",
+          name: "Garden Grain Bowl",
+          price: 9.9,
+          category: "Lunch",
+          description: "Herbed quinoa, citrus vinaigrette, and roasted vegetables.",
+          badge: "Chef's Mix",
+          image:
+            "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80",
         },
         {
           id: "dessert-tart",
-          name: "Amber Citrus Tart",
-          price: 6.5,
+          name: "Berry Cloud Tart",
+          price: 6.4,
           category: "Desserts",
-          description: "Shortcrust tart with yuzu custard and berry glaze.",
+          description: "Yuzu custard, berry glaze, and flaky shortcrust base.",
           badge: "Limited",
-        },
-        {
-          id: "drink-latte",
-          name: "Velvet Oat Latte",
-          price: 4.25,
-          category: "Drinks",
-          description: "Single-origin espresso with oat milk microfoam.",
-          badge: "Barista",
+          image:
+            "https://images.unsplash.com/photo-1505253213348-ce7f8e0ff7ae?auto=format&fit=crop&w=900&q=80",
         },
       ];
 
       const state = {
         cart: JSON.parse(localStorage.getItem("elite_cart") || "{}"),
-        activeSelection: "all",
+        activeSelection: "Coffee",
+        carouselIndex: 0,
       };
 
-      const heroGrid = document.getElementById("hero-grid");
-      const filterSelect = document.getElementById("filter-select");
-      const productGrid = document.getElementById("product-grid");
+      const menuFilters = document.getElementById("menu-filters");
+      const carouselCard = document.getElementById("carousel-card");
+      const carouselDots = document.getElementById("carousel-dots");
+      const carouselPrev = document.getElementById("carousel-prev");
+      const carouselNext = document.getElementById("carousel-next");
       const cartPanel = document.getElementById("cart-panel");
       const overlay = document.getElementById("overlay");
       const cartCount = document.getElementById("cart-count");
@@ -796,68 +961,53 @@
       document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
       overlay.addEventListener("click", () => setCartOpen(false));
 
-      const renderHero = () => {
-        const featured = products.slice(0, 3);
-        heroGrid.innerHTML = featured
-          .map(
-            (item) => `
-              <div class="hero-card">
-                <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
-                  item.badgeActive ? "true" : "false"
-                }">${item.badge}</div>
-                <h3>${item.name}</h3>
-                <p>${item.description}</p>
-                <div class="price-row">
-                  <span class="price">${currency(item.price)}</span>
-                  <button class="add-btn" data-add="${item.id}">Add</button>
-                </div>
-              </div>
-            `
-          )
-          .join("");
-      };
-
       const renderFilters = () => {
-        const selections = [
-          { value: "all", label: "All" },
-          { value: "Combos", label: "Combos" },
-          { value: "Soups", label: "Soups" },
-          { value: "Salads", label: "Salads" },
-          { value: "Mains", label: "Mains" },
-          { value: "Desserts", label: "Desserts" },
-          { value: "Drinks", label: "Drinks" },
-        ];
-
-        filterSelect.innerHTML = selections
+        const selections = ["Coffee", "Tea", "Pastries", "Lunch", "Desserts"];
+        menuFilters.innerHTML = selections
           .map(
             (selection) => `
-              <option value="${selection.value}">${selection.label}</option>
+              <button class="filter-chip ${selection === state.activeSelection ? "active" : ""}"
+                type="button" data-filter="${selection}">
+                ${selection}
+              </button>
             `
           )
           .join("");
-        filterSelect.value = state.activeSelection;
       };
 
-      const renderProducts = () => {
-        const visible =
-          state.activeSelection === "all"
-            ? products
-            : products.filter((p) => p.category === state.activeSelection);
-        productGrid.innerHTML = visible
-          .map(
-            (item) => `
-              <div class="card">
-                <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
-                  item.badgeActive ? "true" : "false"
-                }">${item.badge}</div>
-                <h3>${item.name}</h3>
-                <p>${item.description}</p>
-                <div class="price-row">
-                  <span class="price">${currency(item.price)}</span>
-                  <button class="add-btn" data-add="${item.id}">Add to cart</button>
-                </div>
+      const getVisibleProducts = () =>
+        products.filter((product) => product.category === state.activeSelection);
+
+      const renderCarousel = () => {
+        const visible = getVisibleProducts();
+        if (!visible.length) return;
+        const index = ((state.carouselIndex % visible.length) + visible.length) % visible.length;
+        state.carouselIndex = index;
+        const item = visible[index];
+        carouselCard.innerHTML = `
+          <div class="carousel-image">
+            <img src="${item.image}" alt="${item.name}" />
+            <div class="carousel-badge">${item.badge}</div>
+          </div>
+          <div class="carousel-content">
+            <div class="carousel-category">${item.category}</div>
+            <h2 class="carousel-title">${item.name}</h2>
+            <p class="carousel-desc">${item.description}</p>
+            <div class="carousel-divider"></div>
+            <div class="carousel-footer">
+              <div class="carousel-price">
+                <span>Investment</span>
+                <strong>${currency(item.price)}</strong>
               </div>
-            `
+              <button class="order-btn" data-add="${item.id}">Add to order</button>
+            </div>
+          </div>
+        `;
+
+        carouselDots.innerHTML = visible
+          .map(
+            (_, dotIndex) =>
+              `<span class="carousel-dot ${dotIndex === index ? "active" : ""}"></span>`
           )
           .join("");
       };
@@ -944,12 +1094,23 @@
         }
       });
 
-      filterSelect.addEventListener("change", (event) => {
-        const target = event.target;
-        if (!(target instanceof HTMLSelectElement)) return;
-        state.activeSelection = target.value;
+      menuFilters.addEventListener("click", (event) => {
+        const target = event.target.closest("[data-filter]");
+        if (!target) return;
+        state.activeSelection = target.dataset.filter;
+        state.carouselIndex = 0;
         renderFilters();
-        renderProducts();
+        renderCarousel();
+      });
+
+      carouselPrev.addEventListener("click", () => {
+        state.carouselIndex -= 1;
+        renderCarousel();
+      });
+
+      carouselNext.addEventListener("click", () => {
+        state.carouselIndex += 1;
+        renderCarousel();
       });
 
       document.getElementById("checkout-btn").addEventListener("click", () => {
@@ -961,9 +1122,8 @@
         setCartOpen(false);
       });
 
-      renderHero();
       renderFilters();
-      renderProducts();
+      renderCarousel();
       renderCart();
     </script>
   </body>
