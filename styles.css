@@ -351,6 +351,26 @@ main {
   box-shadow: var(--shadow);
 }
 
+.hero-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.screen-width {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
 .hero h1 {
   font-size: clamp(2rem, 4vw, 3.2rem);
   margin: 0;

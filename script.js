@@ -182,6 +182,7 @@ const vatEl = document.getElementById("vat");
 const totalEl = document.getElementById("total");
 const themeToggle = document.getElementById("theme-toggle");
 const themeLabel = document.getElementById("theme-label");
+const screenWidthLabel = document.getElementById("screen-width");
 const serviceFee = 3.5;
 
 // Function: Format values for display.
@@ -362,9 +363,15 @@ const applyTheme = (theme) => {
   themeLabel.textContent = isLight ? "Light" : "Dark";
 };
 
+const updateScreenWidth = () => {
+  if (!screenWidthLabel) return;
+  screenWidthLabel.textContent = `Screen width: ${window.innerWidth}px`;
+};
+
 const storedTheme = localStorage.getItem("elite_theme");
 const initialTheme = storedTheme || "dark";
 applyTheme(initialTheme);
+updateScreenWidth();
 
 // Event trigger: Theme toggle action.
 themeToggle.addEventListener("click", () => {
@@ -373,6 +380,8 @@ themeToggle.addEventListener("click", () => {
   localStorage.setItem("elite_theme", nextTheme);
   applyTheme(nextTheme);
 });
+
+window.addEventListener("resize", updateScreenWidth);
 
 // Action: Add item to cart.
 const addToCart = (id) => {
