@@ -39,25 +39,15 @@
       </header>
 
       <main>
-        <section class="hero">
-          <div>
-            <h1>The <span class="hero-accent">Full Menu</span></h1>
-            <p>
-              Chef-crafted seasonal plates, tailored for energizing mornings and mindful breaks.
-              <span class="linkish">See today’s highlights.</span>
-            </p>
-          </div>
-          <div class="hero-grid" id="hero-grid"></div>
-        </section>
-
         <section>
-          <div class="section-heading">
-            <label class="section-label" for="filter-select">Daily selections</label>
-            <select id="filter-select" class="filter-select" aria-label="Daily selections"></select>
+          <div class="menu-filters" id="menu-filters"></div>
+          <div class="carousel">
+            <button class="carousel-btn" id="carousel-prev" aria-label="Previous item">‹</button>
+            <div class="carousel-card" id="carousel-card"></div>
+            <button class="carousel-btn" id="carousel-next" aria-label="Next item">›</button>
           </div>
+          <div class="carousel-dots" id="carousel-dots"></div>
         </section>
-
-        <section class="grid" id="product-grid"></section>
       </main>
     </div>
 
