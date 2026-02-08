@@ -48,37 +48,39 @@
       </header>
 
       <main>
-        <section class="hero">
-          <div>
-            <h1>Elite mornings, crafted for <span class="hero-accent">The North</span>.</h1>
-            <p>
-              Explore signature combos, artisan mains, and barista-crafted drinks designed for
-              seamless pickup.
-            </p>
-          </div>
-          <div class="hero-carousel" aria-label="Featured selections">
-            <button class="carousel-arrow left" id="hero-prev" type="button" aria-label="Previous item">
-              ‹
-            </button>
-            <div class="hero-carousel-viewport">
-              <div class="hero-carousel-track" id="hero-track"></div>
+        <section class="hero-layout">
+          <section class="menu-section">
+            <div class="section-heading">
+              <span>Menu</span>
+              <h2 class="section-label">Curated for your day</h2>
             </div>
-            <button class="carousel-arrow right" id="hero-next" type="button" aria-label="Next item">
-              ›
-            </button>
-          </div>
-        </section>
+            <div class="menu-filters">
+              <label class="filter-label" for="filter-select">Filter by category</label>
+              <select class="filter-select" id="filter-select" aria-label="Filter by category"></select>
+            </div>
+            <div class="grid" id="product-grid"></div>
+          </section>
 
-        <section>
-          <div class="section-heading">
-            <span>Menu</span>
-            <h2 class="section-label">Curated for your day</h2>
-          </div>
-          <div class="menu-filters">
-            <label class="filter-label" for="filter-select">Filter by category</label>
-            <select class="filter-select" id="filter-select" aria-label="Filter by category"></select>
-          </div>
-          <div class="grid" id="product-grid"></div>
+          <section class="hero">
+            <div>
+              <h1>Elite mornings, crafted for <span class="hero-accent">The North</span>.</h1>
+              <p>
+                Explore signature combos, artisan mains, and barista-crafted drinks designed for
+                seamless pickup.
+              </p>
+            </div>
+            <div class="hero-carousel" aria-label="Featured selections">
+              <button class="carousel-arrow left" id="hero-prev" type="button" aria-label="Previous item">
+                ‹
+              </button>
+              <div class="hero-carousel-viewport">
+                <div class="hero-carousel-track" id="hero-track"></div>
+              </div>
+              <button class="carousel-arrow right" id="hero-next" type="button" aria-label="Next item">
+                ›
+              </button>
+            </div>
+          </section>
         </section>
       </main>
     </div>
