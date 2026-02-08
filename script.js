@@ -28,6 +28,7 @@ const products = [
     price: 14.5,
     category: "Combos",
     description: "Golden waffle stack, herb eggs, and roasted tomatoes.",
+    ingredients: ["Sourdough waffle", "Herb eggs", "Roasted tomatoes", "Maple butter"],
     badge: "Signature",
     badgeActive: true,
     image: createImage({
@@ -44,6 +45,7 @@ const products = [
     price: 16.0,
     category: "Combos",
     description: "Avocado toast duo, citrus salad, and a crafted latte.",
+    ingredients: ["Avocado toast", "Citrus salad", "Oat latte", "Chili oil"],
     badge: "Popular",
     badgeActive: true,
     image: createImage({
@@ -60,6 +62,7 @@ const products = [
     price: 7.25,
     category: "Soups",
     description: "Creamy porcini blend with toasted garlic brioche.",
+    ingredients: ["Porcini blend", "Garlic brioche", "Thyme oil", "Cream"],
     badge: "Seasonal",
     image: createImage({
       label: "Mushroom Soup",
@@ -75,6 +78,7 @@ const products = [
     price: 9.75,
     category: "Salads",
     description: "Baby kale, roasted squash, cranberries, and feta.",
+    ingredients: ["Baby kale", "Roasted squash", "Cranberries", "Feta"],
     badge: "Integrity",
     badgeType: "integrity",
     image: createImage({
@@ -91,6 +95,7 @@ const products = [
     price: 12.5,
     category: "Mains",
     description: "Saffron rice, grilled chicken, and smoked paprika.",
+    ingredients: ["Saffron rice", "Grilled chicken", "Paprika", "Pickled onions"],
     badge: "Top pick",
     badgeActive: true,
     image: createImage({
@@ -107,6 +112,7 @@ const products = [
     price: 11.9,
     category: "Mains",
     description: "Spinach linguine with pistachio basil pesto.",
+    ingredients: ["Spinach linguine", "Pistachio pesto", "Parmesan", "Basil"],
     badge: "Chef",
     image: createImage({
       label: "Pesto Pasta",
@@ -122,6 +128,7 @@ const products = [
     price: 6.5,
     category: "Desserts",
     description: "Shortcrust tart with yuzu custard and berry glaze.",
+    ingredients: ["Shortcrust", "Yuzu custard", "Berry glaze", "Citrus zest"],
     badge: "Limited",
     image: createImage({
       label: "Citrus Tart",
@@ -137,6 +144,7 @@ const products = [
     price: 4.25,
     category: "Drinks",
     description: "Single-origin espresso with oat milk microfoam.",
+    ingredients: ["Single-origin espresso", "Oat milk", "Microfoam", "Cinnamon"],
     badge: "Barista",
     image: createImage({
       label: "Oat Latte",
@@ -204,17 +212,33 @@ const renderHero = () => {
       (item) => `
         <div class="hero-slide">
           <div class="hero-card">
-            <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
-              item.badgeActive ? "true" : "false"
-            }">${item.badge}</div>
-            <div class="card-media">
+            <div class="hero-card-media">
+              <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
+                item.badgeActive ? "true" : "false"
+              }">${item.badge}</div>
               <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
             </div>
-            <h3>${item.name}</h3>
-            <p>${item.description}</p>
-            <div class="price-row">
-              <span class="price">${currency(item.price)}</span>
-              <button class="add-btn" data-add="${item.id}">Add</button>
+            <div class="hero-card-content">
+              <div>
+                <span class="hero-eyebrow">${item.category}</span>
+                <h3>${item.name}</h3>
+                <p>${item.description}</p>
+              </div>
+              <div class="hero-meta">
+                <div>
+                  <span class="hero-label">Ingredients</span>
+                  <ul class="hero-ingredients">
+                    ${item.ingredients.map((ingredient) => `<li>${ingredient}</li>`).join("")}
+                  </ul>
+                </div>
+                <div class="hero-price-row">
+                  <div>
+                    <span class="hero-label">Investment</span>
+                    <div class="price">${currency(item.price)}</div>
+                  </div>
+                  <button class="add-btn" data-add="${item.id}">Add to order</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
