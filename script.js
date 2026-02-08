@@ -1,3 +1,25 @@
+const createImage = ({ label, primary, secondary, accent }) =>
+  `data:image/svg+xml;utf8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="${primary}" />
+          <stop offset="100%" stop-color="${secondary}" />
+        </linearGradient>
+        <radialGradient id="glow" cx="0.2" cy="0.2" r="0.6">
+          <stop offset="0%" stop-color="${accent}" stop-opacity="0.85" />
+          <stop offset="100%" stop-color="${accent}" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="600" height="420" rx="32" fill="url(#bg)" />
+      <circle cx="120" cy="110" r="140" fill="url(#glow)" />
+      <g fill="rgba(255,255,255,0.85)" font-family="Plus Jakarta Sans, sans-serif">
+        <text x="48" y="330" font-size="34" font-weight="700">${label}</text>
+        <text x="48" y="368" font-size="20" opacity="0.75">Elite Cafe</text>
+      </g>
+    </svg>
+  `)}`;
+
 // Link/Reference: Product data used by UI and cart actions.
 const products = [
   {
@@ -8,6 +30,13 @@ const products = [
     description: "Golden waffle stack, herb eggs, and roasted tomatoes.",
     badge: "Signature",
     badgeActive: true,
+    image: createImage({
+      label: "Sunrise Combo",
+      primary: "#5c3b2e",
+      secondary: "#f2b680",
+      accent: "#f6d365",
+    }),
+    imageAlt: "Waffles, herb eggs, and roasted tomatoes",
   },
   {
     id: "combo-luxe",
@@ -17,6 +46,13 @@ const products = [
     description: "Avocado toast duo, citrus salad, and a crafted latte.",
     badge: "Popular",
     badgeActive: true,
+    image: createImage({
+      label: "Luxe Brunch",
+      primary: "#3c4f6b",
+      secondary: "#b7c6f5",
+      accent: "#a8ff78",
+    }),
+    imageAlt: "Avocado toast, citrus salad, and latte",
   },
   {
     id: "soup-mushroom",
@@ -25,6 +61,13 @@ const products = [
     category: "Soups",
     description: "Creamy porcini blend with toasted garlic brioche.",
     badge: "Seasonal",
+    image: createImage({
+      label: "Mushroom Soup",
+      primary: "#2d2a26",
+      secondary: "#7f5a3a",
+      accent: "#f0c27b",
+    }),
+    imageAlt: "Creamy mushroom soup with brioche",
   },
   {
     id: "salad-harvest",
@@ -34,6 +77,13 @@ const products = [
     description: "Baby kale, roasted squash, cranberries, and feta.",
     badge: "Integrity",
     badgeType: "integrity",
+    image: createImage({
+      label: "Harvest Greens",
+      primary: "#1f3a2d",
+      secondary: "#90c695",
+      accent: "#b7e4a1",
+    }),
+    imageAlt: "Harvest greens with squash and feta",
   },
   {
     id: "main-bowl",
@@ -43,6 +93,13 @@ const products = [
     description: "Saffron rice, grilled chicken, and smoked paprika.",
     badge: "Top pick",
     badgeActive: true,
+    image: createImage({
+      label: "Grain Bowl",
+      primary: "#2b2f3a",
+      secondary: "#f4a261",
+      accent: "#e9c46a",
+    }),
+    imageAlt: "Grain bowl with chicken and paprika",
   },
   {
     id: "main-pasta",
@@ -51,6 +108,13 @@ const products = [
     category: "Mains",
     description: "Spinach linguine with pistachio basil pesto.",
     badge: "Chef",
+    image: createImage({
+      label: "Pesto Pasta",
+      primary: "#264653",
+      secondary: "#2a9d8f",
+      accent: "#a8ff78",
+    }),
+    imageAlt: "Spinach linguine with pistachio pesto",
   },
   {
     id: "dessert-tart",
@@ -59,6 +123,13 @@ const products = [
     category: "Desserts",
     description: "Shortcrust tart with yuzu custard and berry glaze.",
     badge: "Limited",
+    image: createImage({
+      label: "Citrus Tart",
+      primary: "#5d2e46",
+      secondary: "#f4a261",
+      accent: "#f7d794",
+    }),
+    imageAlt: "Citrus tart with berry glaze",
   },
   {
     id: "drink-latte",
@@ -67,6 +138,13 @@ const products = [
     category: "Drinks",
     description: "Single-origin espresso with oat milk microfoam.",
     badge: "Barista",
+    image: createImage({
+      label: "Oat Latte",
+      primary: "#3e2f2b",
+      secondary: "#d7b49e",
+      accent: "#f3d5b5",
+    }),
+    imageAlt: "Oat latte with microfoam",
   },
 ];
 
@@ -120,6 +198,9 @@ const renderHero = () => {
           <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
             item.badgeActive ? "true" : "false"
           }">${item.badge}</div>
+          <div class="card-media">
+            <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
+          </div>
           <h3>${item.name}</h3>
           <p>${item.description}</p>
           <div class="price-row">
@@ -167,6 +248,9 @@ const renderProducts = () => {
           <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
             item.badgeActive ? "true" : "false"
           }">${item.badge}</div>
+          <div class="card-media">
+            <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
+          </div>
           <h3>${item.name}</h3>
           <p>${item.description}</p>
           <div class="price-row">

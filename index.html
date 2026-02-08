@@ -48,14 +48,27 @@
       </header>
 
       <main>
-        <section>
-          <div class="menu-filters" id="menu-filters"></div>
-          <div class="carousel">
-            <button class="carousel-btn" id="carousel-prev" aria-label="Previous item">‹</button>
-            <div class="carousel-card" id="carousel-card"></div>
-            <button class="carousel-btn" id="carousel-next" aria-label="Next item">›</button>
+        <section class="hero">
+          <div>
+            <h1>Elite mornings, crafted for <span class="hero-accent">The North</span>.</h1>
+            <p>
+              Explore signature combos, artisan mains, and barista-crafted drinks designed for
+              seamless pickup.
+            </p>
           </div>
-          <div class="carousel-dots" id="carousel-dots"></div>
+          <div class="hero-grid" id="hero-grid"></div>
+        </section>
+
+        <section>
+          <div class="section-heading">
+            <span>Menu</span>
+            <h2 class="section-label">Curated for your day</h2>
+          </div>
+          <div class="menu-filters">
+            <label class="filter-label" for="filter-select">Filter by category</label>
+            <select class="filter-select" id="filter-select" aria-label="Filter by category"></select>
+          </div>
+          <div class="grid" id="product-grid"></div>
         </section>
       </main>
     </div>
