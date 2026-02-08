@@ -2,19 +2,11 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# Elite Cafeteria (Browser-ready)
 
-This contains everything you need to run your app locally.
+This project is a browser-ready HTML, CSS, and JavaScript experience. No build tools, servers, or dependencies are required.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1hmIKFC8Sj-D4Di7uelKugOGHxsi6Vn0D
+## Run locally
 
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. Open `index.html` in any modern browser.
+2. Use the menu to add items to the cart and confirm an order.
