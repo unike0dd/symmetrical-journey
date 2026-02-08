@@ -171,7 +171,6 @@ const filterSelect = document.getElementById("filter-select");
 const productGrid = document.getElementById("product-grid");
 const menuToggle = document.getElementById("menu-toggle");
 const menuPanel = document.getElementById("menu-panel");
-const menuOverlay = document.getElementById("menu-overlay");
 const cartPanel = document.getElementById("cart-panel");
 const overlay = document.getElementById("overlay");
 const cartCount = document.getElementById("cart-count");
@@ -202,20 +201,11 @@ const setCartOpen = (open) => {
 document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
 overlay.addEventListener("click", () => setCartOpen(false));
 
-const setMenuOpen = (open) => {
-  if (!menuToggle || !menuPanel || !menuOverlay) return;
-  menuPanel.classList.toggle("is-open", open);
-  menuOverlay.classList.toggle("show", open);
-  menuToggle.setAttribute("aria-expanded", String(open));
-  menuPanel.setAttribute("aria-hidden", String(!open));
-};
-
-if (menuToggle && menuPanel && menuOverlay) {
+if (menuToggle && menuPanel) {
   menuToggle.addEventListener("click", () => {
-    const isOpen = menuPanel.classList.contains("is-open");
-    setMenuOpen(!isOpen);
+    const isCollapsed = menuPanel.classList.toggle("is-collapsed");
+    menuToggle.setAttribute("aria-expanded", String(!isCollapsed));
   });
-  menuOverlay.addEventListener("click", () => setMenuOpen(false));
 }
 
 const featuredItems = products.slice(0, 3);
