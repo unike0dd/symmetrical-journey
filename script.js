@@ -169,6 +169,8 @@ const heroPrev = document.getElementById("hero-prev");
 const heroNext = document.getElementById("hero-next");
 const filterSelect = document.getElementById("filter-select");
 const productGrid = document.getElementById("product-grid");
+const menuToggle = document.getElementById("menu-toggle");
+const menuPanel = document.getElementById("menu-panel");
 const cartPanel = document.getElementById("cart-panel");
 const overlay = document.getElementById("overlay");
 const cartCount = document.getElementById("cart-count");
@@ -198,6 +200,13 @@ const setCartOpen = (open) => {
 // Event trigger: Open/close cart.
 document.getElementById("open-cart").addEventListener("click", () => setCartOpen(true));
 overlay.addEventListener("click", () => setCartOpen(false));
+
+if (menuToggle && menuPanel) {
+  menuToggle.addEventListener("click", () => {
+    const isCollapsed = menuPanel.classList.toggle("is-collapsed");
+    menuToggle.setAttribute("aria-expanded", String(!isCollapsed));
+  });
+}
 
 const featuredItems = products.slice(0, 3);
 
