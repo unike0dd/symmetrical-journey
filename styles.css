@@ -257,6 +257,27 @@ main {
   gap: 40px;
 }
 
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.menu-section {
+  display: grid;
+  gap: 16px;
+}
+
+.menu-section .menu-filters {
+  justify-content: flex-start;
+  margin: 0;
+}
+
+.menu-section .grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .hero {
   display: grid;
   gap: 24px;
@@ -787,6 +808,14 @@ a:hover,
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-section .grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 
   .search input {
