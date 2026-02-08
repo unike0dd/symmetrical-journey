@@ -182,7 +182,6 @@ const vatEl = document.getElementById("vat");
 const totalEl = document.getElementById("total");
 const themeToggle = document.getElementById("theme-toggle");
 const themeLabel = document.getElementById("theme-label");
-const screenWidthLabel = document.getElementById("screen-width");
 const serviceFee = 3.5;
 
 // Function: Format values for display.
@@ -307,6 +306,7 @@ const renderProducts = () => {
             item.badgeActive ? "true" : "false"
           }">${item.badge}</div>
           <div class="card-media">
+            <span class="screen-width screen-width-card" aria-live="polite"></span>
             <img src="${item.image}" alt="${item.imageAlt}" loading="lazy" />
           </div>
           <h3>${item.name}</h3>
@@ -319,6 +319,7 @@ const renderProducts = () => {
       `
     )
     .join("");
+  updateScreenWidth();
 };
 
 // Function: Render cart panel.
@@ -364,8 +365,10 @@ const applyTheme = (theme) => {
 };
 
 const updateScreenWidth = () => {
-  if (!screenWidthLabel) return;
-  screenWidthLabel.textContent = `Screen width: ${window.innerWidth}px`;
+  const labelText = `Screen width: ${window.innerWidth}px`;
+  document.querySelectorAll(".screen-width").forEach((label) => {
+    label.textContent = labelText;
+  });
 };
 
 const storedTheme = localStorage.getItem("elite_theme");
