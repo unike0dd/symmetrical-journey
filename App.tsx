@@ -18,6 +18,7 @@ const App: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [adminSettings, setAdminSettings] = useState<AdminSettings>(DEFAULT_ADMIN_SETTINGS);
   const [cart, setCart] = useState<Map<string, CartItem>>(new Map());
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
@@ -129,17 +130,17 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen pb-32 relative text-white selection:bg-amber-500/30 overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10 bg-[#020202]">
+    <div className={`min-h-screen pb-32 relative selection:bg-amber-500/30 overflow-x-hidden ${theme === 'light' ? 'bg-white text-slate-900' : 'bg-black text-white'}`}>
+      <div className={`fixed inset-0 pointer-events-none overflow-hidden -z-10 ${theme === 'light' ? 'bg-[#f8f5f2]' : 'bg-[#020202]'}`}>
         <motion.div 
           animate={{ scale: [1, 1.15, 1], opacity: [0.05, 0.12, 0.05] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-[15%] -left-[10%] w-[60%] h-[60%] bg-amber-600/20 blur-[180px] rounded-full" 
+          className={`absolute -top-[15%] -left-[10%] w-[60%] h-[60%] blur-[180px] rounded-full ${theme === 'light' ? 'bg-amber-300/40' : 'bg-amber-600/20'}`}
         />
         <motion.div 
           animate={{ scale: [1.15, 1, 1.15], opacity: [0.08, 0.15, 0.08] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-[10%] -right-[15%] w-[65%] h-[65%] bg-teal-600/20 blur-[180px] rounded-full" 
+          className={`absolute -bottom-[10%] -right-[15%] w-[65%] h-[65%] blur-[180px] rounded-full ${theme === 'light' ? 'bg-teal-200/40' : 'bg-teal-600/20'}`}
         />
       </div>
 
@@ -161,6 +162,8 @@ const App: React.FC = () => {
           <Header 
             cartCount={cartArray.length} 
             user={user}
+            theme={theme}
+            onToggleTheme={() => setTheme(prev => (prev === 'light' ? 'dark' : 'light'))}
             onOpenCart={() => setIsCartOpen(true)} 
             onOpenProfile={() => setIsProfileOpen(true)}
             onOpenScanner={() => setIsScannerOpen(true)}
