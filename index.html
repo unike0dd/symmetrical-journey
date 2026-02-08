@@ -8,19 +8,58 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
         color-scheme: dark;
-        --bg: #050505;
-        --panel: rgba(255, 255, 255, 0.04);
-        --panel-border: rgba(255, 255, 255, 0.08);
-        --accent: #f59e0b;
-        --accent-strong: #fcd34d;
-        --text-muted: rgba(255, 255, 255, 0.6);
+        --bg-0: #0e0f12;
+        --bg-1: #14171c;
+        --surface-1: #1a1f26;
+        --surface-2: #202834;
+        --surface-3: #2a3442;
+        --border: #2f3a49;
+        --accent: #d86a55;
+        --accent-pressed: #c35c4b;
+        --text-primary: #f3eee6;
+        --text-secondary: #c8c0b6;
+        --chip-bg: #1a1f26;
+        --chip-active: rgba(216, 106, 85, 0.18);
+        --success-soft: rgba(46, 154, 168, 0.18);
+        --success: #2e9aa8;
+        --price: #4c86ff;
+        --hero-accent: rgba(241, 193, 106, 0.45);
+        --divider: rgba(47, 58, 73, 1);
+        --cart-shadow: -24px 0 80px rgba(0, 0, 0, 0.6);
         --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+        --header-bg: var(--surface-2);
+        --hero-surface: linear-gradient(135deg, rgba(241, 193, 106, 0.08), rgba(32, 40, 52, 0.85));
+      }
+
+      [data-theme="light"] {
+        color-scheme: light;
+        --bg-0: #f6f1ff;
+        --bg-1: #f2ecff;
+        --surface-1: #ffffff;
+        --surface-2: #f9f6ff;
+        --surface-3: #f1ebff;
+        --border: #d9ccff;
+        --accent: #d86a55;
+        --accent-pressed: #c35c4b;
+        --text-primary: #161417;
+        --text-secondary: #4a4451;
+        --chip-bg: #ffffff;
+        --chip-active: rgba(216, 106, 85, 0.12);
+        --success-soft: rgba(46, 154, 168, 0.12);
+        --success: #2e9aa8;
+        --price: #4c86ff;
+        --hero-accent: #d86a55;
+        --divider: rgba(217, 204, 255, 0.75);
+        --cart-shadow: -24px 0 80px rgba(76, 134, 255, 0.12);
+        --shadow: 0 24px 60px rgba(76, 134, 255, 0.15);
+        --header-bg: var(--surface-2);
+        --hero-surface: linear-gradient(135deg, rgba(216, 106, 85, 0.08), rgba(249, 246, 255, 0.9));
       }
 
       * {
@@ -30,8 +69,8 @@
       body {
         margin: 0;
         font-family: "Inter", sans-serif;
-        background: var(--bg);
-        color: #fff;
+        background: linear-gradient(180deg, var(--bg-0), var(--bg-1));
+        color: var(--text-primary);
       }
 
       h1,
@@ -45,6 +84,10 @@
       a {
         color: inherit;
         text-decoration: none;
+      }
+
+      .text-muted {
+        color: var(--text-secondary);
       }
 
       .page {
@@ -83,8 +126,8 @@
         top: 0;
         z-index: 20;
         backdrop-filter: blur(24px);
-        background: rgba(0, 0, 0, 0.7);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: var(--header-bg);
+        border-bottom: 1px solid var(--border);
       }
 
       .header-inner {
@@ -109,10 +152,10 @@
         width: 40px;
         height: 40px;
         border-radius: 14px;
-        background: linear-gradient(140deg, #f59e0b, #b45309);
+        background: linear-gradient(140deg, #d86a55, #b84f3f);
         display: grid;
         place-items: center;
-        box-shadow: 0 12px 26px rgba(245, 158, 11, 0.3);
+        box-shadow: 0 12px 26px rgba(216, 106, 85, 0.3);
       }
 
       .brand span {
@@ -129,18 +172,18 @@
       .pill {
         padding: 8px 14px;
         border-radius: 999px;
-        border: 1px solid var(--panel-border);
-        background: var(--panel);
-        color: var(--text-muted);
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+        color: var(--text-secondary);
         font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 0.2em;
       }
 
       .cart-btn {
-        border: 1px solid rgba(245, 158, 11, 0.25);
-        background: rgba(245, 158, 11, 0.12);
-        color: #fff;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-secondary);
         padding: 10px 16px;
         border-radius: 14px;
         font-weight: 600;
@@ -148,6 +191,67 @@
         display: flex;
         align-items: center;
         gap: 8px;
+      }
+
+      .theme-toggle {
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-secondary);
+        padding: 10px 14px;
+        border-radius: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .theme-toggle span {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--text-secondary);
+      }
+
+      .secondary-btn {
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+
+      .secondary-btn:hover {
+        background: rgba(76, 134, 255, 0.1);
+      }
+
+      [data-theme="light"] .secondary-btn:hover {
+        background: rgba(76, 134, 255, 0.06);
+      }
+
+      .search {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: var(--surface-3);
+      }
+
+      .search input {
+        border: none;
+        background: transparent;
+        color: var(--text-primary);
+        padding: 10px 0;
+        min-width: 220px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .search input::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .search:focus-within {
+        box-shadow: 0 0 0 2px rgba(76, 134, 255, 0.6);
       }
 
       .cart-count {
@@ -172,19 +276,25 @@
         gap: 24px;
         padding: 28px;
         border-radius: 24px;
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(17, 24, 39, 0.45));
-        border: 1px solid rgba(245, 158, 11, 0.2);
+        background: var(--hero-surface);
+        border: 1px solid rgba(216, 106, 85, 0.2);
         box-shadow: var(--shadow);
       }
 
       .hero h1 {
         font-size: clamp(2rem, 4vw, 3.2rem);
         margin: 0;
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+      }
+
+      .hero-accent {
+        color: var(--hero-accent);
       }
 
       .hero p {
         margin: 0;
-        color: var(--text-muted);
+        color: var(--text-secondary);
         line-height: 1.6;
       }
 
@@ -195,10 +305,16 @@
       }
 
       .hero-card {
-        background: rgba(5, 5, 5, 0.6);
+        background: var(--surface-1);
         border-radius: 18px;
         padding: 16px;
-        border: 1px solid var(--panel-border);
+        border: 1px solid var(--border);
+      }
+
+      [data-theme="light"] .badge {
+        color: var(--text-secondary);
+        background: var(--chip-bg);
+        border-color: var(--border);
       }
 
       .section-heading {
@@ -217,15 +333,15 @@
 
       .section-heading span {
         font-size: 12px;
-        color: var(--text-muted);
+        color: var(--text-secondary);
         text-transform: uppercase;
         letter-spacing: 0.22em;
       }
 
       .filter-select {
-        background: var(--panel);
-        border: 1px solid var(--panel-border);
-        color: #fff;
+        background: var(--surface-3);
+        border: 1px solid var(--border);
+        color: var(--text-primary);
         padding: 10px 16px;
         border-radius: 999px;
         font-size: 14px;
@@ -235,7 +351,7 @@
       }
 
       .filter-select:focus {
-        outline: 2px solid rgba(245, 158, 11, 0.4);
+        outline: 2px solid rgba(76, 134, 255, 0.6);
         outline-offset: 2px;
       }
 
@@ -246,13 +362,29 @@
       }
 
       .card {
-        background: var(--panel);
+        background: var(--surface-1);
         border-radius: 20px;
-        border: 1px solid var(--panel-border);
+        border: 1px solid rgba(217, 204, 255, 0.7);
         padding: 18px;
         display: grid;
         gap: 12px;
         min-height: 240px;
+        box-shadow: 0 18px 40px rgba(20, 23, 28, 0.12);
+      }
+
+      [data-theme="dark"] .card {
+        border: 1px solid var(--border);
+        box-shadow: none;
+        position: relative;
+      }
+
+      [data-theme="dark"] .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        border: 1px solid rgba(241, 193, 106, 0.18);
+        pointer-events: none;
       }
 
       .card h3 {
@@ -262,7 +394,7 @@
 
       .card p {
         margin: 0;
-        color: var(--text-muted);
+        color: var(--text-secondary);
         font-size: 13px;
         line-height: 1.5;
       }
@@ -276,10 +408,21 @@
         font-size: 11px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        background: rgba(45, 212, 191, 0.12);
-        color: #67e8f9;
-        border: 1px solid rgba(45, 212, 191, 0.3);
+        background: var(--chip-bg);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
         width: fit-content;
+      }
+
+      .badge[data-active="true"] {
+        background: var(--chip-active);
+        border-color: var(--border);
+      }
+
+      .badge.integrity {
+        background: var(--success-soft);
+        color: var(--success);
+        border-color: var(--success);
       }
 
       .price-row {
@@ -293,16 +436,34 @@
       .price {
         font-weight: 700;
         font-size: 16px;
+        color: var(--price);
+      }
+
+      a,
+      .linkish {
+        color: var(--price);
+      }
+
+      a:hover,
+      .linkish:hover {
+        text-decoration: underline;
+        text-shadow: 0 0 10px rgba(76, 134, 255, 0.3);
       }
 
       .add-btn {
-        background: rgba(245, 158, 11, 0.18);
-        border: 1px solid rgba(245, 158, 11, 0.3);
-        color: #fff;
+        background: var(--accent);
+        border: 1px solid var(--accent);
+        color: #0e0f12;
         padding: 8px 12px;
         border-radius: 10px;
         cursor: pointer;
         font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .add-btn:active {
+        background: var(--accent-pressed);
+        transform: translateY(1px);
       }
 
       .cart-panel {
@@ -311,9 +472,9 @@
         right: 0;
         width: min(420px, 100%);
         height: 100vh;
-        background: rgba(5, 5, 5, 0.98);
-        border-left: 1px solid var(--panel-border);
-        box-shadow: -24px 0 80px rgba(0, 0, 0, 0.6);
+        background: var(--surface-1);
+        border-left: 1px solid var(--border);
+        box-shadow: var(--cart-shadow);
         transform: translateX(110%);
         transition: transform 0.35s ease;
         display: grid;
@@ -328,8 +489,8 @@
       }
 
       .cart-item {
-        border: 1px solid var(--panel-border);
-        background: var(--panel);
+        border: 1px solid var(--border);
+        background: var(--surface-1);
         padding: 12px;
         border-radius: 14px;
         display: grid;
@@ -342,7 +503,7 @@
       }
 
       .cart-item small {
-        color: var(--text-muted);
+        color: var(--text-secondary);
       }
 
       .cart-actions {
@@ -352,16 +513,16 @@
       }
 
       .qty-btn {
-        background: rgba(255, 255, 255, 0.08);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: transparent;
+        color: var(--text-primary);
+        border: 1px solid var(--border);
         border-radius: 8px;
         padding: 4px 8px;
         cursor: pointer;
       }
 
       .totals {
-        border-top: 1px solid var(--panel-border);
+        border-top: 1px solid var(--divider);
         padding-top: 16px;
         display: grid;
         gap: 8px;
@@ -371,22 +532,26 @@
       .totals-row {
         display: flex;
         justify-content: space-between;
-        color: var(--text-muted);
+        color: var(--text-secondary);
       }
 
       .totals-row strong {
-        color: #fff;
+        color: var(--text-primary);
         font-size: 16px;
       }
 
       .checkout-btn {
         background: var(--accent);
-        color: #111;
+        color: #0e0f12;
         font-weight: 700;
         border: none;
         border-radius: 12px;
         padding: 12px;
         cursor: pointer;
+      }
+
+      .checkout-btn:active {
+        background: var(--accent-pressed);
       }
 
       .overlay {
@@ -410,6 +575,10 @@
           align-items: flex-start;
         }
 
+        .search input {
+          min-width: 180px;
+        }
+
         .hero {
           padding: 20px;
         }
@@ -427,7 +596,14 @@
           </div>
           <div class="header-actions">
             <span class="pill">The North</span>
-            <button class="cart-btn" id="open-cart">
+            <div class="search" role="search">
+              <span aria-hidden="true">🔍</span>
+              <input type="search" placeholder="Search the menu" aria-label="Search the menu" />
+            </div>
+            <button class="theme-toggle secondary-btn" id="theme-toggle" type="button" aria-pressed="false">
+              🌗 <span id="theme-label">Dark</span>
+            </button>
+            <button class="cart-btn secondary-btn" id="open-cart">
               Cart <span class="cart-count" id="cart-count">0</span>
             </button>
           </div>
@@ -437,7 +613,11 @@
       <main>
         <section class="hero">
           <div>
-            <p>Welcome to Elite Cafeteria — a modern dining lounge.</p>
+            <h1>The <span class="hero-accent">Full Menu</span></h1>
+            <p>
+              Chef-crafted seasonal plates, tailored for energizing mornings and mindful breaks.
+              <span class="linkish">See today’s highlights.</span>
+            </p>
           </div>
           <div class="hero-grid" id="hero-grid"></div>
         </section>
@@ -483,6 +663,7 @@
           category: "Combos",
           description: "Golden waffle stack, herb eggs, and roasted tomatoes.",
           badge: "Signature",
+          badgeActive: true,
         },
         {
           id: "combo-luxe",
@@ -491,6 +672,7 @@
           category: "Combos",
           description: "Avocado toast duo, citrus salad, and a crafted latte.",
           badge: "Popular",
+          badgeActive: true,
         },
         {
           id: "soup-mushroom",
@@ -506,7 +688,8 @@
           price: 9.75,
           category: "Salads",
           description: "Baby kale, roasted squash, cranberries, and feta.",
-          badge: "Fresh",
+          badge: "Integrity",
+          badgeType: "integrity",
         },
         {
           id: "main-bowl",
@@ -515,6 +698,7 @@
           category: "Mains",
           description: "Saffron rice, grilled chicken, and smoked paprika.",
           badge: "Top pick",
+          badgeActive: true,
         },
         {
           id: "main-pasta",
@@ -558,6 +742,8 @@
       const serviceFeeEl = document.getElementById("service-fee");
       const vatEl = document.getElementById("vat");
       const totalEl = document.getElementById("total");
+      const themeToggle = document.getElementById("theme-toggle");
+      const themeLabel = document.getElementById("theme-label");
       const serviceFee = 3.5;
 
       const currency = (value) => `$${value.toFixed(2)}`;
@@ -580,7 +766,9 @@
           .map(
             (item) => `
               <div class="hero-card">
-                <div class="badge">${item.badge}</div>
+                <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
+                  item.badgeActive ? "true" : "false"
+                }">${item.badge}</div>
                 <h3>${item.name}</h3>
                 <p>${item.description}</p>
                 <div class="price-row">
@@ -623,7 +811,9 @@
           .map(
             (item) => `
               <div class="card">
-                <div class="badge">${item.badge}</div>
+                <div class="badge ${item.badgeType === "integrity" ? "integrity" : ""}" data-active="${
+                  item.badgeActive ? "true" : "false"
+                }">${item.badge}</div>
                 <h3>${item.name}</h3>
                 <p>${item.description}</p>
                 <div class="price-row">
@@ -668,6 +858,24 @@
         serviceFeeEl.textContent = items.length ? currency(serviceFee) : currency(0);
         totalEl.textContent = currency(total);
       };
+
+      const applyTheme = (theme) => {
+        document.documentElement.setAttribute("data-theme", theme);
+        const isLight = theme === "light";
+        themeToggle.setAttribute("aria-pressed", String(isLight));
+        themeLabel.textContent = isLight ? "Light" : "Dark";
+      };
+
+      const storedTheme = localStorage.getItem("elite_theme");
+      const initialTheme = storedTheme || "dark";
+      applyTheme(initialTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const nextTheme =
+          document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+        localStorage.setItem("elite_theme", nextTheme);
+        applyTheme(nextTheme);
+      });
 
       const addToCart = (id) => {
         const product = products.find((p) => p.id === id);
