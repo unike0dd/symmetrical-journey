@@ -205,9 +205,12 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+        align-items: center;
+        text-align: center;
       }
 
-      .section-heading h2 {
+      .section-heading h2,
+      .section-label {
         margin: 0;
         font-size: 28px;
       }
@@ -219,26 +222,21 @@
         letter-spacing: 0.22em;
       }
 
-      .filters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .filter-btn {
+      .filter-select {
         background: var(--panel);
         border: 1px solid var(--panel-border);
         color: #fff;
-        padding: 8px 14px;
+        padding: 10px 16px;
         border-radius: 999px;
-        cursor: pointer;
-        font-size: 13px;
+        font-size: 14px;
+        min-width: 220px;
+        text-align: center;
+        appearance: none;
       }
 
-      .filter-btn.active {
-        background: rgba(245, 158, 11, 0.2);
-        border-color: rgba(245, 158, 11, 0.4);
-        color: var(--accent-strong);
+      .filter-select:focus {
+        outline: 2px solid rgba(245, 158, 11, 0.4);
+        outline-offset: 2px;
       }
 
       .grid {
@@ -446,9 +444,9 @@
 
         <section>
           <div class="section-heading">
-            <h2>Daily selections</h2>
+            <label class="section-label" for="filter-select">Daily selections</label>
+            <select id="filter-select" class="filter-select" aria-label="Daily selections"></select>
           </div>
-          <div class="filters" id="filters"></div>
         </section>
 
         <section class="grid" id="product-grid"></section>
@@ -550,7 +548,7 @@
       };
 
       const heroGrid = document.getElementById("hero-grid");
-      const filters = document.getElementById("filters");
+      const filterSelect = document.getElementById("filter-select");
       const productGrid = document.getElementById("product-grid");
       const cartPanel = document.getElementById("cart-panel");
       const overlay = document.getElementById("overlay");
@@ -597,15 +595,14 @@
 
       const renderFilters = () => {
         const categories = ["All", ...new Set(products.map((p) => p.category))];
-        filters.innerHTML = categories
+        filterSelect.innerHTML = categories
           .map(
             (category) => `
-              <button class="filter-btn ${category === state.activeCategory ? "active" : ""}" data-filter="${category}">
-                ${category}
-              </button>
+              <option value="${category}">${category}</option>
             `
           )
           .join("");
+        filterSelect.value = state.activeCategory;
       };
 
       const renderProducts = () => {
@@ -688,17 +685,18 @@
           addToCart(addBtn.dataset.add);
         }
 
-        const filterBtn = event.target.closest("[data-filter]");
-        if (filterBtn) {
-          state.activeCategory = filterBtn.dataset.filter;
-          renderFilters();
-          renderProducts();
-        }
-
         const qtyBtn = event.target.closest("[data-qty]");
         if (qtyBtn) {
           updateQty(qtyBtn.dataset.qty, Number(qtyBtn.dataset.delta));
         }
+      });
+
+      filterSelect.addEventListener("change", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLSelectElement)) return;
+        state.activeCategory = target.value;
+        renderFilters();
+        renderProducts();
       });
 
       document.getElementById("checkout-btn").addEventListener("click", () => {
