@@ -13,9 +13,9 @@ const createImage = ({ label, primary, secondary, accent }) =>
       </defs>
       <rect width="600" height="420" rx="32" fill="url(#bg)" />
       <circle cx="120" cy="110" r="140" fill="url(#glow)" />
-      <g fill="rgba(255,255,255,0.85)" font-family="Plus Jakarta Sans, sans-serif">
-        <text x="48" y="330" font-size="34" font-weight="700">${label}</text>
-        <text x="48" y="368" font-size="20" opacity="0.75">Elite Cafe</text>
+      <g fill="rgba(255,255,255,0.85)" font-family="Plus Jakarta Sans, sans-serif" text-anchor="end">
+        <text x="552" y="330" font-size="34" font-weight="700">${label}</text>
+        <text x="552" y="368" font-size="20" opacity="0.75">Elite Cafe</text>
       </g>
     </svg>
   `)}`;
