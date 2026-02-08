@@ -25,7 +25,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ combos, onUpdate, cartItems
   const qty = cartItems.get(currentProduct.sku)?.qty || 0;
 
   return (
-    <div className="relative group overflow-hidden rounded-[2.5rem]">
+    <div className="relative group overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/5">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentProduct.sku}
@@ -33,35 +33,45 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ combos, onUpdate, cartItems
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="aspect-[21/9] md:aspect-[24/9] lg:aspect-[32/10] relative"
+          className="relative flex flex-col md:flex-row min-h-[360px] md:min-h-[420px] lg:min-h-[460px]"
         >
-          <img 
-            src={currentProduct.image_url} 
-            className="w-full h-full object-cover" 
-            alt={`Featured high-end selection: ${currentProduct.name}. ${currentProduct.description}`} 
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-          
+          <div className="relative md:w-3/5">
+            <img 
+              src={currentProduct.image_url} 
+              className="w-full h-full object-cover" 
+              alt={`Featured high-end selection: ${currentProduct.name}. ${currentProduct.description}`} 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-4">
+              <div>
+                <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-[10px] font-black uppercase tracking-widest border border-white/20">
+                  {currentProduct.category || 'Signature'}
+                </span>
+                <h3 className="text-3xl md:text-4xl font-black text-white tracking-tighter mt-3">{currentProduct.name}</h3>
+              </div>
+              <div className="text-right">
+                <div className="text-white/60 text-[9px] font-black uppercase tracking-widest">Investment</div>
+                <div className="text-2xl md:text-3xl font-black text-amber-400 tracking-tighter">${currentProduct.price.toFixed(2)}</div>
+              </div>
+            </div>
+          </div>
+
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="absolute bottom-0 left-0 p-8 md:p-12 w-full flex flex-col md:flex-row md:items-end justify-between gap-6"
+            className="md:w-2/5 flex flex-col justify-between gap-8 p-8 md:p-10 bg-black/40 backdrop-blur-xl"
           >
-            <div className="space-y-2 max-w-xl">
-              <span className="inline-block px-3 py-1 rounded-full bg-amber-500/10 text-amber-500 text-[10px] font-black uppercase tracking-widest border border-amber-500/20 mb-2">
-                Executive Chef Selection
-              </span>
-              <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter">{currentProduct.name}</h3>
-              <p className="text-white/60 text-sm md:text-base font-medium max-w-md">{currentProduct.description}</p>
+            <div className="space-y-4">
+              <div className="text-white/60 text-[11px] font-black uppercase tracking-[0.3em]">Chef Series</div>
+              <p className="text-white/80 text-sm md:text-base font-medium">{currentProduct.description}</p>
             </div>
-            
-            <div className="flex items-center gap-6 glass-dark px-8 py-5 rounded-[2rem] border-white/10">
-              <div className="text-center pr-6 border-r border-white/10">
-                <div className="text-white/40 text-[9px] font-black uppercase tracking-widest mb-1">Valuation</div>
-                <div className="text-3xl font-black text-amber-500 tracking-tighter">${currentProduct.price.toFixed(2)}</div>
+
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between text-white/70 text-xs font-semibold">
+                <span>In cart</span>
+                <span className="text-lg font-black text-white">{qty}</span>
               </div>
-              
               <div className="flex items-center gap-4">
                 <motion.button 
                   whileTap={{ scale: 0.9 }}
@@ -70,7 +80,13 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ combos, onUpdate, cartItems
                 >
                   −
                 </motion.button>
-                <span className="w-8 text-center font-black text-2xl text-white">{qty}</span>
+                <motion.button
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => onUpdate(currentProduct, 1)}
+                  className="flex-1 px-6 py-3 rounded-full bg-amber-500 text-black text-xs font-black uppercase tracking-[0.25em] hover:bg-amber-400 transition-colors"
+                >
+                  Add to Order
+                </motion.button>
                 <motion.button 
                   whileTap={{ scale: 0.9 }}
                   onClick={() => onUpdate(currentProduct, 1)}
@@ -84,11 +100,11 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ combos, onUpdate, cartItems
         </motion.div>
       </AnimatePresence>
 
-      <button onClick={prev} className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10 active:scale-90 z-20">
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+      <button onClick={prev} className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full glass flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10 active:scale-90 z-20">
+        <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
       </button>
-      <button onClick={next} className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10 active:scale-90 z-20">
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+      <button onClick={next} className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-16 h-16 md:w-20 md:h-20 rounded-full glass flex items-center justify-center opacity-100 md:opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10 active:scale-90 z-20">
+        <svg className="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
       </button>
 
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">

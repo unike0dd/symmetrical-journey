@@ -6,13 +6,15 @@ import { UserProfile } from '../types';
 interface HeaderProps {
   cartCount: number;
   user: UserProfile;
+  theme: 'light' | 'dark';
+  onToggleTheme: () => void;
   onOpenCart: () => void;
   onOpenProfile: () => void;
   onOpenScanner: () => void;
   onOpenAdmin: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ cartCount, user, onOpenCart, onOpenProfile, onOpenScanner, onOpenAdmin }) => {
+const Header: React.FC<HeaderProps> = ({ cartCount, user, theme, onToggleTheme, onOpenCart, onOpenProfile, onOpenScanner, onOpenAdmin }) => {
   if (!user) return null;
 
   const firstName = user.name ? user.name.split(' ')[0] : 'Guest';
@@ -33,6 +35,15 @@ const Header: React.FC<HeaderProps> = ({ cartCount, user, onOpenCart, onOpenProf
         </motion.div>
 
         <div className="flex items-center gap-2 sm:gap-4">
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onToggleTheme}
+            className="glass hover:bg-white/10 px-3 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-semibold tracking-wide"
+          >
+            <span className="w-2 h-2 rounded-full bg-amber-400" />
+            {theme === 'light' ? 'Dark Theme' : 'Light Theme'}
+          </motion.button>
           {user.role === 'OWNER' && (
             <motion.button 
               whileHover={{ scale: 1.05 }}
