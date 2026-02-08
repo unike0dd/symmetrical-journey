@@ -544,7 +544,7 @@
 
       const state = {
         cart: JSON.parse(localStorage.getItem("elite_cart") || "{}"),
-        activeCategory: "All",
+        activeSelection: "all",
       };
 
       const heroGrid = document.getElementById("hero-grid");
@@ -594,22 +594,29 @@
       };
 
       const renderFilters = () => {
-        const categories = ["All", ...new Set(products.map((p) => p.category))];
-        filterSelect.innerHTML = categories
+        const combos = products.filter((p) => p.category === "Combos");
+        const rest = products.filter((p) => p.category !== "Combos");
+        const selections = [
+          { value: "all", label: "All selections" },
+          ...combos.map((item) => ({ value: item.id, label: item.name })),
+          ...rest.map((item) => ({ value: item.id, label: item.name })),
+        ];
+
+        filterSelect.innerHTML = selections
           .map(
-            (category) => `
-              <option value="${category}">${category}</option>
+            (selection) => `
+              <option value="${selection.value}">${selection.label}</option>
             `
           )
           .join("");
-        filterSelect.value = state.activeCategory;
+        filterSelect.value = state.activeSelection;
       };
 
       const renderProducts = () => {
         const visible =
-          state.activeCategory === "All"
+          state.activeSelection === "all"
             ? products
-            : products.filter((p) => p.category === state.activeCategory);
+            : products.filter((p) => p.id === state.activeSelection);
         productGrid.innerHTML = visible
           .map(
             (item) => `
@@ -694,7 +701,7 @@
       filterSelect.addEventListener("change", (event) => {
         const target = event.target;
         if (!(target instanceof HTMLSelectElement)) return;
-        state.activeCategory = target.value;
+        state.activeSelection = target.value;
         renderFilters();
         renderProducts();
       });
