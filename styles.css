@@ -284,10 +284,27 @@ main {
   line-height: 1.6;
 }
 
-.hero-grid {
+.hero-carousel {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
   gap: 16px;
+}
+
+.hero-carousel-viewport {
+  overflow: hidden;
+}
+
+.hero-carousel-track {
+  display: flex;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+.hero-slide {
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .hero-card {
@@ -295,6 +312,35 @@ main {
   border-radius: 18px;
   padding: 16px;
   border: 1px solid var(--border);
+  width: min(100%, 360px);
+  display: grid;
+  gap: 12px;
+}
+
+.carousel-arrow {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-3);
+  color: var(--accent);
+  font-size: 28px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.carousel-arrow:hover {
+  transform: translateY(-1px);
+  background: var(--surface-2);
+}
+
+.carousel-arrow:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
 }
 
 [data-theme="light"] .badge {
@@ -633,5 +679,13 @@ a:hover,
 
   .hero {
     padding: 20px;
+  }
+
+  .hero-carousel {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-arrow {
+    justify-self: center;
   }
 }
