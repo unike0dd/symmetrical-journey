@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/user_model.dart';
+import 'package:flutter_app/admin_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -131,8 +132,23 @@ class AdminHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('Welcome, Admin!'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Welcome, Admin!'),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AdminPage()),
+                );
+              },
+              child: const Text('Go to Admin Page'),
+            ),
+          ],
+        ),
       ),
     );
   }
