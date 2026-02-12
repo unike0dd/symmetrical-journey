@@ -69,17 +69,20 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: _currentUser!.role == UserRole.guest
-          ? LoginPage(
-              onLogin: _login,
-            )
-          : _currentUser!.role == UserRole.admin
-              ? AdminHomePage(
-                  onLogout: _logout,
-                )
-              : ConsumerHomePage(
-                  onLogout: _logout,
-                ),
+      routes: {
+        '/': (context) => _currentUser!.role == UserRole.guest
+            ? LoginPage(
+                onLogin: _login,
+              )
+            : _currentUser!.role == UserRole.admin
+                ? AdminHomePage(
+                    onLogout: _logout,
+                  )
+                : ConsumerHomePage(
+                    onLogout: _logout,
+                  ),
+        '/admin': (context) => const AdminPage(),
+      },
     );
   }
 }
@@ -140,10 +143,7 @@ class AdminHomePage extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AdminPage()),
-                );
+                Navigator.pushNamed(context, '/admin');
               },
               child: const Text('Go to Admin Page'),
             ),
